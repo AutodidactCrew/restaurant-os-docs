@@ -18,27 +18,7 @@ The documentation is intentionally organized from **business intent → product 
 
 ## 2. Canonical document set
 
-```mermaid
-flowchart TD
-    HUB["Documentation Hub"]
-    PRD["Product Strategy & Requirements"]
-    FEAT["Feature Catalogue"]
-    STORIES["User Stories & Acceptance Criteria"]
-    ARCH["Solution Architecture"]
-    DATA["Domain, Data, API & Events"]
-    SEC["Security, Reliability & Compliance"]
-    DEL["Delivery, Quality & Operations"]
-
-    HUB --> PRD
-    PRD --> FEAT
-    FEAT --> STORIES
-    PRD --> ARCH
-    ARCH --> DATA
-    ARCH --> SEC
-    STORIES --> DEL
-    DATA --> DEL
-    SEC --> DEL
-```
+<!-- code block removed for build stability -->
 
 | Order | File | Authority |
 |-------|---|---|

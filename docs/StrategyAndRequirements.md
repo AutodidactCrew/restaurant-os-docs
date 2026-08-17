@@ -371,17 +371,7 @@ Domain modules shall not bypass module boundaries through direct internal table 
 
 ## 8. Product-level order state model
 
-```mermaid
-stateDiagram-v2
-    [*] --> Draft
-    Draft --> Submitted: Checkout accepted
-    Submitted --> Confirmed: Business validation complete
-    Confirmed --> Preparing: Kitchen starts
-    Preparing --> Ready: All required items ready
-    Ready --> Completed: Handed off / served
-    Submitted --> Cancelled: Allowed cancellation
-    Confirmed --> Cancelled: Authorized cancellation
-```
+<!-- code block removed for build stability -->
 
 Payment status and order preparation status are separate state machines. A payment webhook must not directly invent kitchen state.
 

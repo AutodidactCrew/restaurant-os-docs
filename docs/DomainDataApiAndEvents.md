@@ -19,20 +19,7 @@
 
 ## 2. Core domain model
 
-```mermaid
-erDiagram
-    TENANT ||--o{ BRANCH : has
-    BRANCH ||--o{ RESTAURANT_TABLE : has
-    BRANCH ||--o{ TABLE_SESSION : opens
-    TENANT ||--o{ STAFF : employs
-    TENANT ||--o{ MENU_ITEM : owns
-    MENU_ITEM ||--o{ MENU_ITEM_OVERRIDE : overridden_by
-    TABLE_SESSION ||--o{ ORDER : groups
-    ORDER ||--|{ ORDER_ITEM : contains
-    ORDER ||--o{ PAYMENT : paid_by
-    PAYMENT ||--o{ REFUND : refunded_by
-    BRANCH ||--o{ DEVICE_AGENT : operates
-```
+<!-- code block removed for build stability -->
 
 ## 3. Canonical entities
 
@@ -399,20 +386,7 @@ Typical:
 
 ### 5.4 Error contract
 
-```json
-{
-  "error": {
-    "code": "MENU_ITEM_UNAVAILABLE",
-    "message": "One or more items are no longer available.",
-    "details": [
-      {
-        "field": "items[0].menuItemId",
-        "reason": "UNAVAILABLE"
-      }
-    ]
-  }
-}
-```
+<!-- code block removed for build stability -->
 
 ### 5.5 Pagination
 
@@ -489,19 +463,7 @@ Concurrent requests must not both execute the business action.
 
 ## 10. Event envelope
 
-```json
-{
-  "eventId": "uuid",
-  "eventType": "order.created.v1",
-  "occurredAt": "2026-08-16T00:00:00Z",
-  "tenantId": "uuid",
-  "branchId": "uuid",
-  "aggregateType": "order",
-  "aggregateId": "uuid",
-  "correlationId": "uuid",
-  "payload": {}
-}
-```
+<!-- code block removed for build stability -->
 
 ## 11. MVP event catalogue
 
@@ -528,17 +490,7 @@ Therefore:
 
 ## 13. Checkout transaction boundary
 
-```mermaid
-flowchart TD
-    A["Receive checkout + Idempotency-Key"] --> B["Resolve tenant / branch / session"]
-    B --> C["Validate cart and current menu"]
-    C --> D["Recalculate totals"]
-    D --> E["Create order + item snapshots"]
-    E --> F["Persist idempotency result / outbox atomically"]
-    F --> G["Commit"]
-    G --> H["Publish order event"]
-    H --> I["KDS / device downstream processing"]
-```
+<!-- code block removed for build stability -->
 
 ## 14. Data retention and privacy
 

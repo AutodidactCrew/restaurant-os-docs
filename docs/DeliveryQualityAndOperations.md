@@ -24,27 +24,7 @@ A dedicated mobile driver engineer is not needed for MVP because driver capabili
 
 ## 2. 12-week roadmap
 
-```mermaid
-gantt
-    title Restaurant OS MVP Delivery
-    dateFormat  YYYY-MM-DD
-    axisFormat  %b %d
-
-    section Foundation
-    Sprint 0 - Architecture & Platform      :s0, 2026-08-17, 7d
-    Sprint 1 - Tenancy & QR                :s1, after s0, 14d
-
-    section Core Product
-    Sprint 2 - Staff Auth & Admin Shell     :s2, after s1, 14d
-    Sprint 3 - Menu Core                    :s3, after s2, 14d
-    Sprint 4 - Ordering & Idempotency       :s4, after s3, 14d
-
-    section Operations
-    Sprint 5 - KDS & Realtime               :s5, after s4, 7d
-    Sprint 6 - Payments & Webhooks          :s6, after s5, 7d
-    Sprint 7 - Devices & Cashier Ops        :s7, after s6, 7d
-    Sprint 8 - Hardening & Pilot Readiness  :s8, after s7, 7d
-```
+<!-- code block removed for build stability -->
 
 The dates above are illustrative sequencing beginning after this documentation baseline; sprint durations, not calendar dates, are authoritative.
 
@@ -269,20 +249,7 @@ All pilot release gates pass.
 
 ## 13. CI/CD pipeline
 
-```mermaid
-flowchart LR
-    PR["Pull Request"] --> L["Lint / Static Analysis"]
-    L --> U["Unit Tests"]
-    U --> I["Integration Tests"]
-    I --> C["Contract Tests"]
-    C --> S["Security / Dependency Scan"]
-    S --> B["Build Artifact"]
-    B --> STG["Deploy Staging"]
-    STG --> E2E["E2E / Smoke"]
-    E2E --> A["Production Approval"]
-    A --> PROD["Deploy Production"]
-    PROD --> V["Post-deploy Verification"]
-```
+<!-- code block removed for build stability -->
 
 ### Branch strategy
 

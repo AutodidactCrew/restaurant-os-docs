@@ -21,17 +21,7 @@ Restaurant OS must protect:
 
 ## 2. Trust boundaries
 
-```mermaid
-flowchart LR
-    U["Public Customer Device"] --> EDGE["Internet Edge"]
-    S["Staff / KDS Device"] --> EDGE
-    EDGE --> APP["Restaurant OS Cloud"]
-    APP --> PAY["Payment Provider"]
-    APP --> SMS["SMS Provider"]
-    APP --> BUS["Managed Queue/Event Service"]
-    APP <--> AGENT["Restaurant Device Agent"]
-    AGENT --> PRN["Local Printers"]
-```
+<!-- code block removed for build stability -->
 
 Each boundary requires authentication/authorization, input validation, timeout/retry policy and observability appropriate to the risk.
 

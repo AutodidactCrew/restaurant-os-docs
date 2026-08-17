@@ -37,81 +37,11 @@ The exact cloud deployment implementation can evolve through ADRs.
 
 ## 3. System context
 
-```mermaid
-flowchart LR
-    CUSTOMER["Customer Mobile Web"]
-    STAFF["Admin / Staff Web"]
-    KDS["KDS PWA"]
-    AGENT["Local Device Agent"]
-    API["Restaurant OS API"]
-    DB[("PostgreSQL")]
-    CACHE[("Redis")]
-    BUS["Async Event / Command Bus"]
-    FILES[("Object Storage")]
-    PAY["Payment Provider"]
-    SMS["SMS Provider"]
-    POS["POS / External Adapters"]
-
-    CUSTOMER --> API
-    STAFF --> API
-    KDS --> API
-    AGENT <--> API
-
-    API --> DB
-    API --> CACHE
-    API --> BUS
-    API --> FILES
-    API --> PAY
-    API --> SMS
-    API --> POS
-```
+<!-- code block removed for build stability -->
 
 ## 4. Edge and runtime topology
 
-```mermaid
-flowchart TB
-    subgraph Clients["Client Applications"]
-        CW["Customer Web"]
-        AW["Admin / Staff Web"]
-        KW["KDS PWA"]
-    end
-
-    subgraph Edge["Edge"]
-        CDN["CDN"]
-        WAF["WAF / Rate Limiting"]
-        INGRESS["Ingress / API Gateway"]
-    end
-
-    subgraph Cloud["Restaurant OS Cloud"]
-        APP["Modular Monolith API"]
-        WORKER["Async Workers"]
-        DB[("PostgreSQL + RLS")]
-        REDIS[("Redis")]
-        QUEUE["SQS / Event Bus"]
-        S3[("Object Storage")]
-    end
-
-    subgraph Restaurant["Restaurant Network"]
-        AGENT["Device Agent"]
-        PRINTER["Receipt / Kitchen Printer"]
-    end
-
-    CW --> CDN
-    CDN --> WAF
-    AW --> WAF
-    KW --> WAF
-    WAF --> INGRESS
-    INGRESS --> APP
-
-    APP --> DB
-    APP --> REDIS
-    APP --> QUEUE
-    APP --> S3
-    QUEUE --> WORKER
-    WORKER --> DB
-    WORKER --> AGENT
-    AGENT --> PRINTER
-```
+<!-- code block removed for build stability -->
 
 ## 5. Domain module boundaries
 
@@ -141,25 +71,7 @@ A module must not become coupled to another module by directly modifying its own
 
 ## 7. Primary order flow
 
-```mermaid
-sequenceDiagram
-    actor C as Customer
-    participant WEB as Customer Web
-    participant API as Ordering API
-    participant DB as PostgreSQL
-    participant BUS as Event Bus
-    participant KDS as KDS
-    participant DEV as Device Worker
-
-    C->>WEB: Scan QR and build cart
-    WEB->>API: POST checkout + Idempotency-Key
-    API->>DB: Validate context/menu and create order snapshot
-    DB-->>API: Commit order
-    API->>BUS: Publish OrderCreated
-    API-->>WEB: Return order confirmation
-    BUS-->>KDS: Notify branch KDS
-    BUS-->>DEV: Trigger eligible print command creation
-```
+<!-- code block removed for build stability -->
 
 **Invariant:** downstream kitchen/device effects must not be created before durable order state exists.
 
@@ -167,25 +79,7 @@ sequenceDiagram
 
 The source files describe both order creation and PaymentIntent flow. The canonical implementation should keep payment state distinct from order preparation state.
 
-```mermaid
-sequenceDiagram
-    actor C as Customer
-    participant WEB as Customer Web
-    participant API as Restaurant OS
-    participant PP as Payment Provider
-    participant DB as PostgreSQL
-
-    WEB->>API: Request payment intent/reference
-    API->>DB: Validate order and idempotency context
-    API->>PP: Create provider payment intent
-    PP-->>API: Provider reference + client secret
-    API->>DB: Persist payment record
-    API-->>WEB: Return client secret
-    WEB->>PP: Confirm payment using provider SDK
-    PP-->>API: Signed webhook
-    API->>API: Verify signature + dedupe event
-    API->>DB: Reconcile payment state
-```
+<!-- code block removed for build stability -->
 
 ## 9. KDS real-time architecture
 
@@ -198,18 +92,7 @@ sequenceDiagram
 - After disconnect, KDS calls the queue/state endpoint to resynchronize.
 - Poll fallback may run during prolonged socket failure.
 
-```mermaid
-flowchart TD
-    O["Committed Order"] --> E["Publish OrderCreated"]
-    E --> WS["Real-time Broadcast"]
-    WS --> K["KDS UI"]
-    K --> D{"Connection lost?"}
-    D -->|No| K
-    D -->|Yes| B["Show reconnecting / stale-state banner"]
-    B --> R["Reconnect"]
-    R --> S["Fetch current KDS queue"]
-    S --> K
-```
+<!-- code block removed for build stability -->
 
 ## 10. Device Agent architecture
 

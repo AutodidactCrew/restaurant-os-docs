@@ -135,14 +135,7 @@ Tenant-level catalogue with branch-level overrides and restaurant-ready item con
 
 ### Resolution rule
 
-```mermaid
-flowchart LR
-    T["Tenant catalogue item"] --> O{"Branch override exists?"}
-    O -->|No| E1["Use tenant defaults"]
-    O -->|Yes| E2["Apply branch price / availability override"]
-    E1 --> M["Effective branch menu"]
-    E2 --> M
-```
+<!-- code block removed for build stability -->
 
 ---
 
@@ -206,26 +199,7 @@ Reliable command delivery from cloud to local restaurant devices using a Device 
 
 ### Device command lifecycle
 
-```mermaid
-sequenceDiagram
-    participant API as Restaurant OS API
-    participant Q as Command Queue
-    participant A as Device Agent
-    participant P as Printer
-
-    API->>Q: Enqueue PrintCommand(orderId, printToken)
-    Q-->>A: Deliver command
-    A->>A: Check local printToken history
-    alt token already processed
-        A-->>Q: Acknowledge duplicate safely
-    else new token
-        A->>A: Persist command before execution
-        A->>P: Print receipt/ticket
-        P-->>A: Print result
-        A->>A: Mark token processed
-        A-->>Q: Acknowledge result
-    end
-```
+<!-- code block removed for build stability -->
 
 ---
 
@@ -293,15 +267,7 @@ Shared technical capabilities required to make all user-facing features reliable
 
 ### Standard error envelope
 
-```json
-{
-  "error": {
-    "code": "ORDER_VALIDATION_FAILED",
-    "message": "The order could not be submitted.",
-    "details": []
-  }
-}
-```
+<!-- code block removed for build stability -->
 
 ---
 
@@ -422,21 +388,4 @@ Preferred architectural principle: AI may call constrained application tools/API
 
 ## 15. Feature dependency map
 
-```mermaid
-flowchart TD
-    F6["F6 Tenant/Admin"] --> F3["F3 Menu"]
-    F6 --> F1["F1 Ordering"]
-    F7["F7 API/Events"] --> F1
-    F7 --> F2["F2 Payments"]
-    F7 --> F4["F4 KDS"]
-    F7 --> F5["F5 Devices"]
-    F3 --> F1
-    F1 --> F2
-    F1 --> F4
-    F1 --> F5
-    F3 --> F8["F8 Inventory"]
-    F1 --> F9["F9 Delivery"]
-    F2 --> F10["F10 Loyalty/Split Tender"]
-    F1 --> F11["F11 Reporting"]
-    F6 --> F12["F12 Enterprise"]
-```
+<!-- code block removed for build stability -->

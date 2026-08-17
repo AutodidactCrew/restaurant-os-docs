@@ -180,7 +180,7 @@ The dates above are illustrative sequencing beginning after this documentation b
 
 ### Exit criteria
 
-- order visible <3 seconds p95 under test load target;
+- order visible under 3 seconds (p95) under test load target;
 - disconnect/reconnect test preserves state;
 - cross-branch socket access denied.
 

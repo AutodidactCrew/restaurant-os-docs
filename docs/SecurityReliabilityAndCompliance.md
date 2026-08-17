@@ -199,7 +199,7 @@ Audit logs should be append-oriented and protected from ordinary tenant mutation
 | Area | Target / requirement |
 |---|---|
 | Platform availability | 99.5% internal MVP target |
-| Order-to-KDS | p95 <3s under pilot capacity |
+| Order-to-KDS | p95 under 3 seconds under pilot capacity |
 | Tenant isolation | zero known cross-tenant leaks |
 | Payment retry | no duplicate charge caused by platform retry |
 | Printing retry | no duplicate physical print for same print token |

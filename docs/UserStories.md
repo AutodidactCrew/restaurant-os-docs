@@ -308,7 +308,7 @@ Simulate:
 ### Acceptance criteria
 
 - KDS connection is branch scoped;
-- target p95 visibility <3 seconds under agreed pilot load;
+- target p95 visibility under 3 seconds under agreed pilot load;
 - event contains enough information to render item names, modifiers and instructions;
 - another branch cannot subscribe/read the order.
 

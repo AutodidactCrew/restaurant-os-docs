@@ -257,7 +257,7 @@ A confirmed kitchen-facing order shall be delivered to the correct branch KDS.
 
 Acceptance:
 
-- target p95 order-to-KDS visibility <3 seconds under agreed pilot load;
+- target p95 order-to-KDS visibility under 3 seconds under agreed pilot load;
 - event is tenant/branch scoped;
 - KDS can resync after connection loss;
 - a temporary WS failure does not destroy persisted order state.

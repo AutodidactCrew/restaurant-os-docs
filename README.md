@@ -5,6 +5,7 @@ Professional product and engineering documentation site built with Docusaurus.
 ## Local development
 
 ```bash
+nvm use 20
 npm install
 npm start
 ```

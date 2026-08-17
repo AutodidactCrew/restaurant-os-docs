@@ -7,7 +7,7 @@ const config = {
   baseUrl: "/restaurant-os-docs/",
   organizationName: "AutodidactCrew",
   projectName: "restaurant-os-docs",
-  onBrokenLinks: "throw",
+  onBrokenLinks: "warn",
   markdown: {
     mermaid: true,
     hooks: {

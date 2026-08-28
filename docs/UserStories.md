@@ -236,6 +236,36 @@ Simulate:
 
 ---
 
+## US-P1-031 — Inspect unreconciled payment state
+
+**As a** platform operator  
+**I want** a screen listing unreconciled/exception payments  
+**So that** I can resolve mismatches instead of them going unnoticed. *(Gap analysis #5, folds into F2)*
+
+### Acceptance criteria
+
+- unreconciled payments are listed with provider reference and order link;
+- operator can annotate/mark a payment as manually resolved;
+- resolution action is audited;
+- list excludes payments already reconciled by webhook.
+
+---
+
+## US-P2-018 — Issue refund from a dedicated screen
+
+**As a** manager  
+**I want** a refund screen with reason codes and an amount field  
+**So that** I don't need to construct a raw API call to refund a customer. *(Gap analysis #20, folds into F2)*
+
+### Acceptance criteria
+
+- reason code is selected from a defined list;
+- amount field is constrained to the remaining refundable balance;
+- confirmation step precedes submission;
+- successful refund shows the same audit trail as US-P1-010.
+
+---
+
 # Epic C — Menu Administration (F3)
 
 ## US-P1-012 — Create tenant-level menu item
@@ -294,6 +324,36 @@ Simulate:
 - operation is authorized;
 - public menu changes quickly after invalidation;
 - checkout still revalidates item availability to protect against stale client cache.
+
+---
+
+## US-P1-032 — Manage menu from an admin screen
+
+**As a** manager  
+**I want** category/item/modifier CRUD screens with a branch-override editor  
+**So that** I don't need raw API calls to build a menu. *(Gap analysis #15, folds into F3)*
+
+### Acceptance criteria
+
+- categories, items, and modifier groups are each manageable from a screen, not just an API;
+- branch-override editor shows effective vs. template value side by side;
+- unsaved changes are not silently lost;
+- all writes are still server-authorized per US-P1-012.
+
+---
+
+## US-P2-019 — Bulk import a menu from file
+
+**As a** manager  
+**I want** to upload a CSV/POS-export menu file  
+**So that** onboarding a large menu isn't hundreds of manual entries. *(Gap analysis #33, folds into F3)*
+
+### Acceptance criteria
+
+- uploaded file is validated before commit;
+- a diff preview shows new/changed/unchanged items before the import is applied;
+- per-row import errors are reported without failing the whole batch;
+- imported items follow the same tenant/branch model as manually created ones.
 
 ---
 
@@ -393,6 +453,35 @@ Simulate:
 
 ---
 
+## US-P1-033 — Pair and set up a Device Agent
+
+**As a** restaurant employee  
+**I want** a guided setup flow to install and pair the Device Agent  
+**So that** printing works without engineering help on-site. *(Gap analysis #3, folds into F5)*
+
+### Acceptance criteria
+
+- setup flow issues an agent credential without exposing platform secrets;
+- printer(s) are mapped to the agent during setup, not after;
+- setup confirms a successful test print before completing;
+- failed pairing gives an actionable error, not a silent stall.
+
+---
+
+## US-P2-020 — View device health status
+
+**As a** manager  
+**I want** to see each Device Agent's online/offline status and last-seen time  
+**So that** I notice a dead printer before a customer does. *(Gap analysis #21, folds into F5)*
+
+### Acceptance criteria
+
+- per-device status (online/offline) and last-seen timestamp are visible;
+- prolonged offline status triggers an alert per configured threshold;
+- status view is scoped to the manager's branch(es).
+
+---
+
 # Epic F — Tenant, Staff & Admin (F6)
 
 ## US-P1-022 — Onboard tenant and initial branch
@@ -467,6 +556,109 @@ Simulate:
 - session list available to authorized actor;
 - revocation invalidates refresh capability;
 - audit entry recorded.
+
+---
+
+## US-P1-034 — Manage tenants from Platform Admin console
+
+**As a** platform operator  
+**I want** a console to list, search, and view tenant detail  
+**So that** onboarding and support don't require direct database/API access. *(Gap analysis #1, folds into F6)*
+
+### Acceptance criteria
+
+- tenant list is searchable by name/slug/status;
+- tenant detail view shows plan, status, branches, and usage;
+- suspend/reactivate action is available and audited;
+- trial-expiry policy is surfaced in the UI, not just documented separately.
+
+---
+
+## US-P1-035 — Activate staff account via invite
+
+**As a** newly invited staff member  
+**I want** a clear first-login path from my invite  
+**So that** I don't have to guess how to get into the app. *(Gap analysis #2, folds into F6)*
+
+### Acceptance criteria
+
+- invite is delivered via SMS/link, not just a database row;
+- one-tap activation completes first login;
+- expired invite gives a clear resend path;
+- inviting manager can trigger a resend.
+
+---
+
+## US-P1-036 — Browse and search audit log
+
+**As a** manager or platform support  
+**I want** to filter and search `audit_logs`  
+**So that** disputes ("who refunded this and why") have a fast answer. *(Gap analysis #4, folds into F6)*
+
+### Acceptance criteria
+
+- filterable by actor, action, entity, and date range;
+- before/after state is visible per entry;
+- results are exportable;
+- access is scoped to the viewer's authorized tenant/branch.
+
+---
+
+## US-P1-037 — Flag a suspicious order from live-tables view
+
+**As a** cashier  
+**I want** to see live table-session status and flag an order against a visibly empty table  
+**So that** QR-replay fraud (an order placed from off-premises) gets caught before the kitchen fires it. *(Gap analysis #6, folds into F6 — confirm `orders.flagged_suspicious` is still in scope; it was not found in the current canonical docs)*
+
+### Acceptance criteria
+
+- live-tables view shows session status per table in real time;
+- one-tap flag action marks the order for manager review;
+- flagged orders appear in a review queue, not just a raw flag on the order row;
+- staff can trigger a `qr_token` reset for a table from the same view.
+
+---
+
+## US-P2-021 — Manage my active sessions/devices
+
+**As a** staff member  
+**I want** a screen listing my active sessions with a revoke action  
+**So that** I can self-serve log out a lost device instead of needing a manager. *(Gap analysis #16, folds into F6)*
+
+### Acceptance criteria
+
+- current session is distinguishable from other active sessions;
+- each session shows device info and last-active time;
+- revoke action calls the existing session-revoke capability (US-P1-026);
+- a manager can perform this on a staff member's behalf for a lost phone.
+
+---
+
+## US-P2-022 — Generate and print a QR table sticker
+
+**As a** manager  
+**I want** to generate a printable QR sticker for a table  
+**So that** a new or replacement table sticker doesn't require engineering help. *(Gap analysis #17, folds into F6)*
+
+### Acceptance criteria
+
+- sticker/label renders as a printable PDF or direct print job;
+- regenerating a sticker (after a `qr_token` reset) produces a sticker with the new token;
+- old stickers are visibly distinguishable from current ones (e.g. via a print date).
+
+---
+
+## US-P2-023 — View role permission matrix
+
+**As an** owner  
+**I want** to see what each fixed role can actually do, and rename its display label  
+**So that** I understand and can explain my own team's access without reading code. *(Gap analysis #19, folds into F6)*
+
+### Acceptance criteria
+
+- permission matrix is read-only and reflects the actual fixed role definitions;
+- label rename changes display only, never the underlying permission set;
+- change to a label is audited.
 
 ---
 
@@ -801,6 +993,21 @@ Simulate:
 
 ---
 
+## US-P2-024 — View operational reporting dashboard
+
+**As a** manager or owner  
+**I want** a dashboard over sales, item, and staff-performance reports  
+**So that** I don't have to read raw API responses to see how the business is doing. *(Gap analysis #18, folds into F11)*
+
+### Acceptance criteria
+
+- dashboard covers sales summary, item/category performance, and staff metrics at minimum;
+- date-range selection and period-over-period comparison are available;
+- CSV export button is available from the dashboard view, not just the API;
+- dashboard respects the same authorization scope as the underlying report endpoints.
+
+---
+
 # P3 backlog — Enterprise & AI
 
 # Epic L — Enterprise Multi-Tenant Capabilities (F12)
@@ -907,6 +1114,357 @@ Simulate:
 
 ---
 
+# Full end-to-end scope additions (F14–F32)
+
+The 19 epics below cover genuinely new capability areas surfaced by the consolidated gap analysis (`GAP_ANALYSIS.md`) that don't fold into an existing Epic — see `FeatureCatalogue.md` §15 for the feature-level definitions these stories implement. Priority tags follow the same P1/P2 legend as the rest of this document, **with one caveat**: line 5 of this document defines P1 as "required for MVP pilot sign-off," but these P1 stories (US-P1-031 onward) are not yet part of the committed MVP pilot scope in `DeliveryQualityAndOperations.md`. Here, P1 means "required for a genuinely complete full-service product," not "blocks the current pilot." Reconcile against the actual roadmap before treating any of these as a pilot sign-off gate.
+
+# Epic N — Reservations & Waitlist (F14)
+
+## US-P1-038 — Book a table reservation
+
+**As a** customer or host  
+**I want** to reserve a table for a future date/time and party size  
+**So that** I don't have to walk in and hope for space.
+
+### Acceptance criteria
+
+- reservation captures party size, date/time, and contact info;
+- double-booking the same table/slot is prevented;
+- deposit or no-show policy is enforced if configured;
+- confirmation is sent to the customer.
+
+---
+
+## US-P1-039 — Manage the walk-in waitlist
+
+**As a** host  
+**I want** to add walk-ins to a waitlist with a quoted wait time  
+**So that** guests without a reservation are managed fairly.
+
+### Acceptance criteria
+
+- waitlist entry captures party size and contact info;
+- quoted wait time is based on current table availability;
+- host can notify/seat a party from the waitlist;
+- removal/no-show from the waitlist is tracked.
+
+---
+
+# Epic O — Workforce Scheduling & Time Clock (F15)
+
+## US-P1-040 — Build a staff shift schedule
+
+**As a** manager  
+**I want** to create and publish shift schedules  
+**So that** staff know when they're expected to work.
+
+### Acceptance criteria
+
+- schedule assigns staff to shifts by date/role/branch;
+- published schedule is visible to assigned staff;
+- double-booked staff conflicts are flagged;
+- schedule changes are auditable.
+
+---
+
+## US-P1-041 — Clock in and out of a shift
+
+**As a** staff member  
+**I want** to clock in/out from a kiosk or my device  
+**So that** my worked hours are accurately recorded.
+
+### Acceptance criteria
+
+- clock-in/out is tied to the staff member's identity and branch;
+- late/early clock events are flagged against the scheduled shift;
+- attendance data feeds tip-pooling (F23) and labor-law compliance (F30);
+- manager can view/correct attendance records with an audit trail.
+
+---
+
+# Epic P — Card-Present / EMV Payments (F16)
+
+## US-P1-042 — Take an in-person card payment at the counter
+
+**As a** cashier  
+**I want** to charge a customer's card via a paired EMV terminal  
+**So that** pay-at-counter isn't cash-only.
+
+### Acceptance criteria
+
+- terminal is paired to a specific branch/register;
+- tap/chip/swipe transaction result reconciles into `payments`;
+- terminal receipt prints on success;
+- failed/declined transaction gives a clear retry path.
+
+---
+
+# Epic Q — Cash Drawer & Till Reconciliation (F17)
+
+## US-P1-043 — Close out the till at end of shift
+
+**As a** cashier or manager  
+**I want** to record an opening float, cash drops, and a closing count  
+**So that** cash handling is reconciled every shift.
+
+### Acceptance criteria
+
+- opening float is recorded at shift start;
+- cash drops during the shift are logged;
+- closing blind count is compared against expected cash total;
+- over/short amount is recorded and visible to the manager.
+
+---
+
+# Epic R — Alcohol Age Verification (F18)
+
+## US-P1-044 — Verify age before completing an alcohol order
+
+**As a** staff member  
+**I want** to confirm ID verification before an alcohol item is served  
+**So that** the restaurant meets legal age-verification requirements.
+
+### Acceptance criteria
+
+- cart/order containing an alcohol item prompts an age-verification step;
+- staff confirmation is required before the item is marked served, for counter/table service;
+- verification event is recorded with staff identity and timestamp;
+- self-serve QR ordering blocks alcohol checkout until staff verification completes.
+
+---
+
+# Epic S — Full-Outage Offline Mode (F19)
+
+## US-P1-045 — Keep taking orders during a full connectivity outage
+
+**As** kitchen or counter staff  
+**I want** the app to keep working locally when the branch loses internet entirely  
+**So that** service doesn't stop because the connection drops.
+
+### Acceptance criteria
+
+- staff session remains valid locally for a bounded grace period during an outage;
+- new orders queue locally and sync once connectivity returns;
+- staff see an explicit "offline mode" indicator, not a silent failure;
+- queued orders sync without creating duplicates on reconnect (ties to F7 idempotency).
+
+---
+
+# Epic T — Customer Data Export & Right-to-Erasure (F20)
+
+## US-P1-046 — Fulfill a customer data export/deletion request
+
+**As a** platform operator or customer  
+**I want** to export or delete a customer's personal data on request  
+**So that** the platform meets baseline data-rights obligations (GDPR/CCPA-style).
+
+### Acceptance criteria
+
+- request can be initiated by the customer or by staff on their behalf;
+- export includes all PII across `customers`, `orders`, `otp_verifications`;
+- deletion is verified complete, not just soft-flagged;
+- request and fulfillment are audited with timestamps.
+
+---
+
+# Epic U — Delivery Marketplace Integration (F21)
+
+## US-P1-047 — Ingest an order from a delivery marketplace
+
+**As a** branch  
+**I want** orders placed via DoorDash/UberEats-style marketplaces to land in the same order pipeline  
+**So that** kitchen staff work from one queue regardless of channel.
+
+### Acceptance criteria
+
+- marketplace order maps into the standard `orders`/`order_items` model;
+- menu availability changes sync out to the marketplace catalog;
+- marketplace commission/fee is tracked against the order;
+- marketplace order follows the same kitchen state machine as dine-in/pickup.
+
+---
+
+# Epic V — Floor Plan & Table/Section Management (F22)
+
+## US-P2-025 — Manage the floor plan and section assignments
+
+**As a** host or manager  
+**I want** a visual floor plan with server-to-section assignment  
+**So that** seating and service assignment don't rely on memory.
+
+### Acceptance criteria
+
+- floor plan reflects actual table layout and is editable by a manager;
+- each table shows live status (open/seated/needs-bussing);
+- servers are assignable to sections;
+- floor plan status updates reflect `table_session` state in real time.
+
+---
+
+# Epic W — Tip Pooling & Distribution (F23)
+
+## US-P2-026 — Distribute pooled tips across staff
+
+**As a** manager  
+**I want** to configure a tip-pooling rule and see the resulting per-staff allocation  
+**So that** captured tips are fairly and transparently distributed.
+
+### Acceptance criteria
+
+- pooling rule supports at least even-split and role-weighted configurations;
+- per-staff tip report is generated per shift/period;
+- report is exportable for payroll;
+- allocation is traceable back to the source orders' `tip_amount`.
+
+---
+
+# Epic X — Recipe Costing & Food-Cost Tracking (F24)
+
+## US-P2-027 — Track food cost per menu item
+
+**As an** owner or manager  
+**I want** ingredient cost input per recipe and a computed food-cost percentage  
+**So that** I can price the menu profitably.
+
+### Acceptance criteria
+
+- recipe records ingredient cost inputs per menu item;
+- food-cost % is computed per item;
+- margin report is viewable per item/category;
+- independent of the deferred automated inventory-deduction feature (F8).
+
+---
+
+# Epic Y — Accounting/GL Integration (F25)
+
+## US-P2-028 — Sync sales data to accounting software
+
+**As an** owner or bookkeeper  
+**I want** sales/payment/refund data to export or sync to QuickBooks/Xero-style software  
+**So that** bookkeeping isn't a manual CSV re-entry exercise.
+
+### Acceptance criteria
+
+- export/sync adapter supports at least one major accounting platform;
+- chart-of-accounts mapping is configurable per tenant;
+- sync failures are visible and retryable, not silently dropped.
+
+---
+
+# Epic Z — Food Safety & HACCP Recordkeeping (F26)
+
+## US-P2-029 — Record food-safety compliance checks
+
+**As** kitchen staff or a manager  
+**I want** to log temperature checks and inspection checklists  
+**So that** health-inspection documentation exists when needed.
+
+### Acceptance criteria
+
+- temperature log entries are timestamped and attributable to staff;
+- inspection checklist records are stored per branch;
+- compliance history is exportable for an inspector or auditor.
+
+---
+
+# Epic AA — Accessibility (ADA/WCAG) Compliance (F27)
+
+## US-P2-030 — Meet accessibility standards on the guest ordering page
+
+**As a** customer using assistive technology  
+**I want** the ordering page to be navigable and readable via screen reader/keyboard  
+**So that** I'm not excluded from ordering.
+
+### Acceptance criteria
+
+- ordering web app targets WCAG 2.1 AA conformance;
+- automated accessibility testing runs in CI as a gate;
+- a documented conformance statement exists and is kept current.
+
+---
+
+# Epic AB — Gift Cards & Store Credit (F28)
+
+## US-P2-031 — Purchase and redeem a gift card
+
+**As a** customer  
+**I want** to buy a gift card and redeem it at checkout  
+**So that** gift cards work as a normal payment option.
+
+### Acceptance criteria
+
+- gift card purchase issues a redeemable balance;
+- balance lookup and partial redemption are supported at checkout;
+- store credit can be issued on refund as an alternative to cash-back;
+- balance changes are auditable.
+
+---
+
+# Epic AC — Multi-Currency Per Branch (F29)
+
+## US-P2-032 — Configure currency per branch
+
+**As a** franchise owner  
+**I want** each branch to have its own operating currency  
+**So that** a chain spanning countries doesn't share one tenant-level currency.
+
+### Acceptance criteria
+
+- currency is configurable at the branch level, not just tenant level;
+- prices and tax calculations display/compute in the branch's currency;
+- platform billing currency (ADR-007) remains independent of branch operating currency.
+
+---
+
+# Epic AD — Labor-Law Compliance Engine (F30)
+
+## US-P2-033 — Get alerted on labor-law violations
+
+**As a** manager  
+**I want** break/overtime rules enforced against schedule and time-clock data  
+**So that** I catch compliance violations before they become a legal problem.
+
+### Acceptance criteria
+
+- break/overtime rules are configurable per jurisdiction;
+- a violation (missed break, overtime threshold) triggers an alert;
+- compliance report is available for audits;
+- depends on F15's schedule/time-clock data existing first.
+
+---
+
+# Epic AE — Catering & Advance/Scheduled Orders (F31)
+
+## US-P2-034 — Place an order for future pickup/delivery
+
+**As a** customer  
+**I want** to schedule an order for a future time instead of ordering for right now  
+**So that** catering and advance orders are supported.
+
+### Acceptance criteria
+
+- customer selects a future pickup/delivery time within allowed lead time;
+- scheduled orders appear in a separate kitchen queue from live orders until their prep window;
+- minimum order size/lead time rules are configurable for catering-scale orders.
+
+---
+
+# Epic AF — Disaster Recovery RTO/RPO Program (F32)
+
+## US-P2-035 — Run and track recovery drills against stated RTO/RPO targets
+
+**As a** platform operator  
+**I want** documented recovery-time/recovery-point objectives and a recurring drill cadence  
+**So that** disaster recovery is a tested capability, not a one-time checkbox.
+
+### Acceptance criteria
+
+- RTO/RPO targets are documented per environment;
+- restore drills run on a recurring, not one-time, cadence;
+- drill results are tracked over time and reviewed after each run.
+
+---
+
 ## 2. MVP traceability matrix
 
 | Story | Feature | Principal API/domain |
@@ -924,6 +1482,34 @@ Simulate:
 | US-P1-019–021 | F5/F7 | Device Agent, print command |
 | US-P1-022–026 | F6 | Tenant/staff/RBAC |
 | US-P1-027–030 | F7 | API standards, tenancy, events, rate limits |
+| US-P1-031 | F2 | Payment reconciliation console *(gap analysis)* |
+| US-P2-018 | F2 | Refund screen *(gap analysis)* |
+| US-P1-032 | F3 | Menu admin UI *(gap analysis)* |
+| US-P2-019 | F3 | Bulk menu import *(gap analysis)* |
+| US-P1-033 | F5 | Device Agent pairing *(gap analysis)* |
+| US-P2-020 | F5 | Device health view *(gap analysis)* |
+| US-P1-034–037 | F6 | Platform Admin console, staff invite, audit log, order flagging *(gap analysis)* |
+| US-P2-021–023 | F6 | My Devices, QR sticker tool, role visibility *(gap analysis)* |
+| US-P2-024 | F11 | Reporting dashboard *(gap analysis)* |
+| US-P1-038–039 | F14 | Reservations & waitlist |
+| US-P1-040–041 | F15 | Workforce scheduling, time clock |
+| US-P1-042 | F16 | Card-present/EMV payments |
+| US-P1-043 | F17 | Cash drawer/till reconciliation |
+| US-P1-044 | F18 | Alcohol age verification |
+| US-P1-045 | F19 | Full-outage offline mode |
+| US-P1-046 | F20 | Data export/right-to-erasure |
+| US-P1-047 | F21 | Delivery marketplace integration |
+| US-P2-025 | F22 | Floor plan & table/section management |
+| US-P2-026 | F23 | Tip pooling & distribution |
+| US-P2-027 | F24 | Recipe costing & food-cost tracking |
+| US-P2-028 | F25 | Accounting/GL integration |
+| US-P2-029 | F26 | Food safety & HACCP recordkeeping |
+| US-P2-030 | F27 | Accessibility (ADA/WCAG) |
+| US-P2-031 | F28 | Gift cards & store credit |
+| US-P2-032 | F29 | Multi-currency per branch |
+| US-P2-033 | F30 | Labor-law compliance |
+| US-P2-034 | F31 | Catering & advance orders |
+| US-P2-035 | F32 | Disaster recovery RTO/RPO |
 
 ## 3. Cross-story Definition of Done
 

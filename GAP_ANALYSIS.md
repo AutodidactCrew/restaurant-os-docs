@@ -10,6 +10,7 @@
 
 Consensus is out of 5 independent review agents per pass; "confirmed pre-round" means it was established in direct conversation review before the two 5-agent passes ran.
 
+**Triage status (28 Aug 2026):** all 32 CRITICAL and IMPORTANT rows (#1–#33, minus one merge) have been added to `docs/FeatureCatalogue.md` and `docs/UserStories.md`. The 13 "UI/Tool" rows were folded into their existing parent feature (F2, F3, F5, F6, F11) rather than given new Feature IDs — see each feature's "Additions from gap analysis" subsection. The remaining 19 rows became new Features F14–F32 with their own Epics (N–AF) in `UserStories.md`. NICE-TO-HAVE rows (#34–#38) and the single-reviewer flags below were **not** triaged into either document — they remain here only. Open decisions (#39–#41) were not added as features; they're still open questions, cross-referenced from `SolutionArchitecture.md` where applicable.
 | # | Type | Item | Gap (one line) | Priority | Consensus |
 |---|---|---|---|---|---|
 | 1 | UI/Tool | Platform Admin console | Tenant onboard/suspend API exists, no screen — today it's raw SQL/curl | CRITICAL | 5/5 |

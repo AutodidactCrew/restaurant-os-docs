@@ -23,40 +23,29 @@
 | F11 | Reporting & Analytics | P2 | Deferred beyond baseline operational telemetry |
 | F12 | Enterprise Multi-Tenant Capabilities | P3 | Deferred |
 | F13 | AI Assistance & Automation | P3 / gated | Requires ADR before activation |
-| F14 | Platform Admin Console | P1 | Required — not yet scheduled |
-| F15 | Staff Invite & Onboarding Activation | P1 | Required — not yet scheduled |
-| F16 | Device Agent Pairing & Setup | P1 | Required — not yet scheduled |
-| F17 | Audit Log Viewer | P1 | Required — not yet scheduled |
-| F18 | Payment Reconciliation Console | P1 | Required — not yet scheduled |
-| F19 | Cashier Live-Tables & Suspicious-Order Flagging | P1 | Required — not yet scheduled |
-| F20 | Reservations & Waitlist | P1 | Required — not yet scheduled |
-| F21 | Workforce Scheduling & Time Clock | P1 | Required — not yet scheduled |
-| F22 | Card-Present / EMV Terminal Integration | P1 | Required — not yet scheduled |
-| F23 | Cash Drawer & Till Reconciliation | P1 | Required — not yet scheduled |
-| F24 | Alcohol Age Verification | P1 | Required — not yet scheduled |
-| F25 | Full-Outage Offline Mode | P1 | Required — not yet scheduled |
-| F26 | Customer Data Export & Right-to-Erasure | P1 | Required — not yet scheduled |
-| F27 | Delivery Marketplace Integration | P1 | Required — not yet scheduled |
-| F28 | Menu Management Admin UI & Bulk Import | P1 | Required — not yet scheduled |
-| F29 | Staff Device/Session Management ("My Devices") | P2 | Deferred |
-| F30 | QR Sticker Generation & Printing Tool | P2 | Deferred |
-| F31 | Operational Reporting Dashboard (UI) | P2 | Deferred |
-| F32 | Role/Permission Visibility Console | P2 | Deferred |
-| F33 | Refund Management Screen | P2 | Deferred |
-| F34 | Device Health/Heartbeat Admin View | P2 | Deferred |
-| F35 | Floor Plan & Table/Section Management | P2 | Deferred |
-| F36 | Tip Pooling & Distribution | P2 | Deferred |
-| F37 | Recipe Costing & Food-Cost Tracking | P2 | Deferred |
-| F38 | Accounting/GL Integration | P2 | Deferred |
-| F39 | Food Safety & HACCP Recordkeeping | P2 | Deferred |
-| F40 | Accessibility (ADA/WCAG) Compliance | P2 | Deferred |
-| F41 | Gift Cards & Store Credit | P2 | Deferred |
-| F42 | Multi-Currency Per Branch | P2 | Deferred |
-| F43 | Labor-Law Compliance Engine | P2 | Deferred |
-| F44 | Catering & Advance/Scheduled Orders | P2 | Deferred |
-| F45 | Disaster Recovery RTO/RPO Program | P2 | Deferred |
+| F14 | Reservations & Waitlist | P1 | Required — not yet scheduled |
+| F15 | Workforce Scheduling & Time Clock | P1 | Required — not yet scheduled |
+| F16 | Card-Present / EMV Terminal Integration | P1 | Required — not yet scheduled |
+| F17 | Cash Drawer & Till Reconciliation | P1 | Required — not yet scheduled |
+| F18 | Alcohol Age Verification | P1 | Required — not yet scheduled |
+| F19 | Full-Outage Offline Mode | P1 | Required — not yet scheduled |
+| F20 | Customer Data Export & Right-to-Erasure | P1 | Required — not yet scheduled |
+| F21 | Delivery Marketplace Integration | P1 | Required — not yet scheduled |
+| F22 | Floor Plan & Table/Section Management | P2 | Deferred |
+| F23 | Tip Pooling & Distribution | P2 | Deferred |
+| F24 | Recipe Costing & Food-Cost Tracking | P2 | Deferred |
+| F25 | Accounting/GL Integration | P2 | Deferred |
+| F26 | Food Safety & HACCP Recordkeeping | P2 | Deferred |
+| F27 | Accessibility (ADA/WCAG) Compliance | P2 | Deferred |
+| F28 | Gift Cards & Store Credit | P2 | Deferred |
+| F29 | Multi-Currency Per Branch | P2 | Deferred |
+| F30 | Labor-Law Compliance Engine | P2 | Deferred |
+| F31 | Catering & Advance/Scheduled Orders | P2 | Deferred |
+| F32 | Disaster Recovery RTO/RPO Program | P2 | Deferred |
 
-**Note on F14–F28 (P1):** these are marked P1 (required for a genuinely complete product) per the consolidated gap analysis, but none are yet placed into the sprint roadmap in `DeliveryQualityAndOperations.md` — "P1" here means "must exist before this is a full-service product," not "already scheduled." Reconcile against the roadmap before treating these as committed.
+**Note on F14–F21 (P1):** these are marked P1 (required for a genuinely complete product) per the consolidated gap analysis, but none are yet placed into the sprint roadmap in `DeliveryQualityAndOperations.md` — "P1" here means "must exist before this is a full-service product," not "already scheduled." Reconcile against the roadmap before treating these as committed.
+
+**Where did F14–F45 (admin/ops tooling) go?** The original draft of this addition gave 13 missing-UI items (Platform Admin Console, Staff Invite Activation, Device Agent Pairing, Audit Log Viewer, Payment Reconciliation Console, Cashier Live-Tables/Suspicious-Order Flagging, Menu Admin UI & Bulk Import, Staff Device/Session Management, QR Sticker Tool, Reporting Dashboard, Role/Permission Visibility, Refund Screen, Device Health View) their own top-level Feature IDs. On review, these aren't new *features* — they're missing screens for capabilities that already live under F2, F3, F5, F6, F7, and F11. They've been folded into those features' own sections below (look for the **"Additions from gap analysis"** subsection under each) so `UserStories.md` can add them as new stories under the existing Epic rather than spawning 13 new Epics for what is really one theme: "the admin/ops UI layer doesn't exist yet."
 
 ---
 
@@ -136,6 +125,13 @@ Secure collection and reconciliation of payment without Restaurant OS handling r
 - refund amount cannot exceed remaining refundable amount;
 - duplicate webhook processing must be harmless.
 
+### Additions from gap analysis
+
+Backend/API for both already exists above; neither has a human-usable screen yet.
+
+- **Payment reconciliation console** — screen fulfilling FR-007's "operator can inspect unreconciled payment state"; list of exception payments, drill-down to provider reference, manual resolution/annotation. *(GAP_ANALYSIS.md #5, P1)*
+- **Refund management screen** — the manager-facing UI behind the refund API above; reason-code selection, amount entry constrained by remaining refundable balance, confirmation. *(GAP_ANALYSIS.md #20, P2)*
+
 ---
 
 ## 4. F3 — Menu & Catalogue Management
@@ -170,6 +166,13 @@ Tenant-level catalogue with branch-level overrides and restaurant-ready item con
 ### Resolution rule
 
 <!-- code block removed for build stability -->
+
+### Additions from gap analysis
+
+Today an item can only be created one at a time via `POST /categories/{id}/items` — no screen exists at all.
+
+- **Menu management admin UI** — category/item/modifier CRUD screens, branch-override editor. *(GAP_ANALYSIS.md #15, P1)*
+- **Bulk menu import** — CSV/POS-export upload with validation, diff-preview, and error reporting, so onboarding a 200-item menu isn't 200 manual API calls. *(GAP_ANALYSIS.md #33, P2)*
 
 ---
 
@@ -235,6 +238,13 @@ Reliable command delivery from cloud to local restaurant devices using a Device 
 
 <!-- code block removed for build stability -->
 
+### Additions from gap analysis
+
+"Last-seen/device-health view" above is currently a data concept (fields exist), not a screen — and nothing describes how the agent gets installed in the first place.
+
+- **Device Agent pairing/setup wizard** — guided install flow, agent credential issuance, printer-to-agent mapping UI, pairing-success confirmation. Without this, no pilot restaurant can actually stand up printing. *(GAP_ANALYSIS.md #3, P1)*
+- **Device health/heartbeat admin view** — per-device online/offline status, last-seen timestamp, alerting for prolonged offline devices, as an actual screen. *(GAP_ANALYSIS.md #21, P2)*
+
 ---
 
 ## 7. F6 — Tenant, Branch, Staff & Admin
@@ -271,6 +281,18 @@ Administrative foundation for multi-tenant operation.
 - Server
 
 Driver is modeled post-MVP.
+
+### Additions from gap analysis
+
+The largest cluster of missing screens in the whole catalogue — most of F6's own listed capabilities above ("Tenant creation," "Staff invite," "Audit logging," "QR token generation," "Session revocation") exist only as API/data behavior today.
+
+- **Platform Admin console** — tenant list/search, tenant detail (plan, status, branches, usage), suspend/reactivate action, trial-expiry policy surfaced in the UI. Today this is raw SQL/curl. *(GAP_ANALYSIS.md #1, P1)*
+- **Staff invite & onboarding activation** — the actual first-login experience: SMS/link delivery, one-tap activation, invite expiry, resend action. *(GAP_ANALYSIS.md #2, P1)*
+- **Audit log viewer** — filter by actor/action/entity/date, before/after state display, export for dispute investigation. *(GAP_ANALYSIS.md #4, P1)*
+- **Cashier live-tables & suspicious-order flagging** — the QR-replay-fraud control from the master doc (§3.9): live view of open table sessions, one-tap "flag suspicious," flagged-order review queue, `qr_token` reset action. **Note:** `orders.flagged_suspicious` was not found anywhere in the canonical docs during review — confirm whether it was dropped from scope entirely or just from these documents. *(GAP_ANALYSIS.md #6, P1)*
+- **Staff device/session management ("My Devices")** — screen behind the existing session-revoke API; list of active sessions/devices, self-service or manager-assisted revocation for a lost phone. *(GAP_ANALYSIS.md #16, P2)*
+- **QR sticker generation/printing tool** — printable sticker/label rendering (PDF or direct print), regenerate-on-rotation flow tied to `qr_token`. *(GAP_ANALYSIS.md #17, P2)*
+- **Role/permission visibility console** — read-only permission matrix per role, plus the role display-label editor already implied by master doc §3.13. *(GAP_ANALYSIS.md #19, P2)*
 
 ---
 
@@ -379,6 +401,10 @@ MVP uses manual availability/86 controls instead of automated inventory dependen
 
 Operational observability required to run the MVP is not deferred.
 
+### Additions from gap analysis
+
+- **Operational reporting dashboard (UI)** — every report above is an API endpoint (`GET /branches/:id/reports/*`) with no dashboard layer; add sales/item/staff-performance views, date-range and period-comparison controls, and a CSV export button. *(GAP_ANALYSIS.md #18, P2)*
+
 ---
 
 ## 13. F12 — Enterprise Multi-Tenant Capabilities
@@ -420,185 +446,114 @@ Preferred architectural principle: AI may call constrained application tools/API
 
 ---
 
-## 15. Full end-to-end scope additions (F14–F45)
+## 15. Full end-to-end scope additions (F14–F32)
 
-**Provenance:** these entries were not in the original catalogue. They were surfaced by a consolidated gap analysis (see `GAP_ANALYSIS.md` at the repo root) built from two independent five-agent review passes over this document set plus the master planning doc — one pass hunting for missing domain features, one pass hunting for backend/API capabilities that have no human-usable screen or tool behind them. Each entry below cites its source row in that file. Definitions and capabilities here are first-draft scope, not yet reviewed/refined the way F1–F13 were — treat as a starting point for planning, not a finished spec.
+**Provenance:** these entries were not in the original catalogue. They were surfaced by a consolidated gap analysis (see `GAP_ANALYSIS.md` at the repo root) built from two independent five-agent review passes over this document set plus the master planning doc. The 13 findings that were really *missing UI for an existing feature* (Platform Admin Console, Staff Invite Activation, Device Agent Pairing, Audit Log Viewer, Payment Reconciliation Console, Cashier Live-Tables/Suspicious-Order Flagging, Menu Admin UI & Bulk Import, Staff Device/Session Management, QR Sticker Tool, Reporting Dashboard, Role/Permission Visibility, Refund Screen, Device Health View) have been folded into F2, F3, F5, F6, and F11 above as "Additions from gap analysis" subsections. What remains here (F14–F32) are genuinely new capability areas with no existing home in the catalogue. Definitions and capabilities are first-draft scope, not yet reviewed/refined the way F1–F13 were — treat as a starting point for planning, not a finished spec.
 
-### 15.1 Operational admin tooling
+### 15.1 Front-of-house & guest experience
 
-Every item in this group shares the same shape: the backend/API/schema already exists elsewhere in this catalogue, but no screen or tool was ever designed for a human to actually use it.
-
-**F14 — Platform Admin Console**
-Priority: P1 · Source: GAP_ANALYSIS.md #1
-Definition: Internal console for the platform operator to manage tenants — list/search tenants, view a tenant detail page (plan, status, branches, usage), and suspend/reactivate.
-Capabilities: tenant list + search; tenant detail view; suspend/reactivate action; audit entry on every action; written trial-expiry policy surfaced in the UI.
-
-**F15 — Staff Invite & Onboarding Activation**
-Priority: P1 · Source: GAP_ANALYSIS.md #2
-Definition: The actual first-login experience for a newly invited staff member.
-Capabilities: SMS/link-based invite delivery; one-tap activation on first login; invite expiry handling; resend-invite action for the inviting manager.
-
-**F16 — Device Agent Pairing & Setup**
-Priority: P1 · Source: GAP_ANALYSIS.md #3
-Definition: The setup flow a restaurant employee follows to install the local Device Agent and pair it to a specific printer.
-Capabilities: guided pairing wizard or install script; agent credential issuance; printer-to-agent mapping UI; pairing-success confirmation.
-
-**F17 — Audit Log Viewer**
-Priority: P1 · Source: GAP_ANALYSIS.md #4
-Definition: Screen for authorized staff/support to browse and search `audit_logs`.
-Capabilities: filter by actor, action, entity, date range; before/after state display; export for dispute investigation.
-
-**F18 — Payment Reconciliation Console**
-Priority: P1 · Source: GAP_ANALYSIS.md #5
-Definition: Fulfills FR-007's "operator can inspect unreconciled payment state" requirement with an actual screen.
-Capabilities: list of unreconciled/exception payments; drill-down to provider reference and order; manual resolution/annotation action.
-
-**F19 — Cashier Live-Tables & Suspicious-Order Flagging**
-Priority: P1 · Source: GAP_ANALYSIS.md #6
-Definition: The QR-replay-fraud control described in the master doc (§3.9) — a live view of open table sessions a cashier can flag if an order appears against a visibly empty table. **Note:** review agents found `orders.flagged_suspicious` is not present anywhere in the current canonical docs — confirm whether this was dropped from scope or just from these documents before treating it as still planned.
-Capabilities: live-tables view (session status per table); one-tap "flag suspicious" action; flagged-order review queue for managers; `qr_token` reset action.
-
-**F28 — Menu Management Admin UI & Bulk Import**
-Priority: P1 · Source: GAP_ANALYSIS.md #15, #33
-Definition: An actual screen for managing the menu catalogue, plus a bulk-import path — today menu items can only be created one at a time via raw API calls.
-Capabilities: category/item/modifier CRUD screens; branch-override editor; CSV/POS-export bulk import with validation and diff-preview before committing; import error reporting.
-
-### 15.2 Front-of-house & guest experience
-
-**F20 — Reservations & Waitlist**
+**F14 — Reservations & Waitlist**
 Priority: P1 · Source: GAP_ANALYSIS.md #7
 Definition: Booking and walk-in waitlist management for full-service and bar concepts, distinct from the QR dine-in flow.
 Capabilities: table booking with party size/time; waitlist with quoted wait time; deposit/no-show handling; host-facing seating view.
 
-**F35 — Floor Plan & Table/Section Management**
+**F22 — Floor Plan & Table/Section Management**
 Priority: P2 · Source: GAP_ANALYSIS.md #22
 Definition: A visual floor plan replacing the current flat table list, with server/section assignment.
 Capabilities: drag-and-drop floor plan editor; table-status-at-a-glance (open/seated/needs-bussing); section-to-server assignment.
 
-**F44 — Catering & Advance/Scheduled Orders**
+**F31 — Catering & Advance/Scheduled Orders**
 Priority: P2 · Source: GAP_ANALYSIS.md #31
 Definition: Orders placed ahead of time for a future pickup/service slot, explicitly excluded from F1 today with no deferred-scope placeholder.
 Capabilities: scheduled pickup/delivery time selection; kitchen-side advance-order queue separate from live orders; large-order/catering minimums and lead-time rules.
 
-### 15.3 Payments & financial operations
+### 15.2 Payments & financial operations
 
-**F22 — Card-Present / EMV Terminal Integration**
+**F16 — Card-Present / EMV Terminal Integration**
 Priority: P1 · Source: GAP_ANALYSIS.md #9
 Definition: In-person card tap/chip/swipe at the counter — today "pay at counter" has no integrated terminal flow.
 Capabilities: EMV terminal pairing per branch/register; tap/chip/swipe transaction flow; terminal receipt printing; reconciliation against `payments`.
 
-**F23 — Cash Drawer & Till Reconciliation**
+**F17 — Cash Drawer & Till Reconciliation**
 Priority: P1 · Source: GAP_ANALYSIS.md #10
 Definition: End-of-shift cash handling, distinct from card settlement.
 Capabilities: opening float entry; cash drop recording; blind-count/EOD close-out; over/short reporting.
 
-**F33 — Refund Management Screen**
-Priority: P2 · Source: GAP_ANALYSIS.md #20
-Definition: The manager-facing screen behind the existing refund API — currently the spec's only reference to it is the word "UI" with no fields or flow defined.
-Capabilities: refund reason-code selection; partial/full refund entry constrained by remaining refundable amount; confirmation and audit entry.
-
-**F36 — Tip Pooling & Distribution**
+**F23 — Tip Pooling & Distribution**
 Priority: P2 · Source: GAP_ANALYSIS.md #23
 Definition: Allocation of captured `tip_amount` across staff, and reporting for tax purposes.
 Capabilities: pooling rule configuration (even split, role-weighted, etc.); per-staff tip report; export for payroll.
 
-**F37 — Recipe Costing & Food-Cost Tracking**
+**F24 — Recipe Costing & Food-Cost Tracking**
 Priority: P2 · Source: GAP_ANALYSIS.md #24
 Definition: Margin/food-cost analysis per menu item, distinct from the already-deferred automated inventory deduction (F8).
 Capabilities: ingredient-cost input per recipe; food-cost % per item; margin reporting.
 
-**F38 — Accounting/GL Integration**
+**F25 — Accounting/GL Integration**
 Priority: P2 · Source: GAP_ANALYSIS.md #25
 Definition: Export or sync to standard accounting software, beyond the generic reporting CSV.
 Capabilities: QuickBooks/Xero export or sync adapter; chart-of-accounts mapping per tenant.
 
-**F41 — Gift Cards & Store Credit**
+**F28 — Gift Cards & Store Credit**
 Priority: P2 · Source: GAP_ANALYSIS.md #28
 Definition: Purchasable/redeemable gift cards and store credit, absent from scope entirely today.
 Capabilities: gift card purchase/issue; balance lookup and redemption at checkout; store-credit issuance on refund as an alternative to cash-back.
 
-**F42 — Multi-Currency Per Branch**
+**F29 — Multi-Currency Per Branch**
 Priority: P2 · Source: GAP_ANALYSIS.md #29
 Definition: Currency support at the branch level, not just tenant level — needed the moment a franchise spans countries.
 Capabilities: per-branch currency configuration; currency-aware price display and tax calculation; platform billing currency kept separate (per ADR-007).
 
-### 15.4 Workforce management
+### 15.3 Workforce management
 
-**F21 — Workforce Scheduling & Time Clock**
+**F15 — Workforce Scheduling & Time Clock**
 Priority: P1 · Source: GAP_ANALYSIS.md #8
 Definition: Shift scheduling and attendance tracking — today "staff" is only an identity record, not a scheduled/tracked worker.
 Capabilities: shift rota creation; clock-in/out (kiosk or personal device); attendance/lateness report.
 
-**F43 — Labor-Law Compliance Engine**
+**F30 — Labor-Law Compliance Engine**
 Priority: P2 · Source: GAP_ANALYSIS.md #30
-Definition: Break and overtime threshold tracking/alerting, dependent on F21 existing first.
+Definition: Break and overtime threshold tracking/alerting, dependent on F15 existing first.
 Capabilities: configurable break/overtime rules per jurisdiction; violation alerting; compliance report for audits.
 
-### 15.5 Compliance & risk
+### 15.4 Compliance & risk
 
-**F24 — Alcohol Age Verification**
+**F18 — Alcohol Age Verification**
 Priority: P1 · Source: GAP_ANALYSIS.md #11
 Definition: An ID-check step for alcohol items, despite bars being an explicit target segment with no such control today.
 Capabilities: age-gate prompt on alcohol items in cart; staff-facing ID-check confirmation step for counter/table service; audit trail of verification.
 
-**F26 — Customer Data Export & Right-to-Erasure**
+**F20 — Customer Data Export & Right-to-Erasure**
 Priority: P1 · Source: GAP_ANALYSIS.md #13
 Definition: GDPR/CCPA-style data subject rights — currently filed under P3 Enterprise, but a baseline legal obligation the moment any tenant has an EU/CA customer, not an upsell tier.
 Capabilities: customer-initiated or staff-assisted data export request; verified deletion across `customers`/`orders`/`otp_verifications`; request/fulfillment audit trail.
 
-**F39 — Food Safety & HACCP Recordkeeping**
+**F26 — Food Safety & HACCP Recordkeeping**
 Priority: P2 · Source: GAP_ANALYSIS.md #26
 Definition: Temperature logs and health-inspection documentation, separate from menu-level allergen metadata.
 Capabilities: temperature log entry (manual or IoT-fed); inspection checklist records; exportable compliance history.
 
-**F40 — Accessibility (ADA/WCAG) Compliance**
+**F27 — Accessibility (ADA/WCAG) Compliance**
 Priority: P2 · Source: GAP_ANALYSIS.md #27
 Definition: Accessibility requirements for the public guest-facing ordering page — not mentioned anywhere in the current spec, and real legal exposure, not just UX polish.
 Capabilities: WCAG 2.1 AA conformance target for the ordering web app; accessibility testing gate in CI; documented conformance statement.
 
-### 15.6 Reliability, resilience & delivery
+### 15.5 Reliability, resilience & delivery
 
-**F25 — Full-Outage Offline Mode**
+**F19 — Full-Outage Offline Mode**
 Priority: P1 · Source: GAP_ANALYSIS.md #12
 Definition: Resilience for a total loss of internet/cloud connectivity at a branch — today's resilience design (Device Agent, KDS reconnect) only covers printing and the KDS socket, not order-taking or staff auth during a full outage.
 Capabilities: locally-cached staff session validity during outage; local order queue with sync-on-reconnect; explicit staff-facing "offline mode" indicator.
 
-**F27 — Delivery Marketplace Integration**
+**F21 — Delivery Marketplace Integration**
 Priority: P1 · Source: GAP_ANALYSIS.md #14
 Definition: Adapter-level integration with delivery marketplaces (DoorDash, UberEats, etc.), distinct from the native driver-dispatch model that's the only delivery approach currently planned (F9).
 Capabilities: marketplace order ingestion into the same order pipeline; menu sync to marketplace catalogs; marketplace-specific commission/fee tracking.
 
-**F45 — Disaster Recovery RTO/RPO Program**
+**F32 — Disaster Recovery RTO/RPO Program**
 Priority: P2 · Source: GAP_ANALYSIS.md #32
 Definition: Stated, tested recovery-time and recovery-point objectives, rather than a one-time backup/restore pilot checkbox.
 Capabilities: documented RTO/RPO targets per environment; recurring (not one-time) restore-drill cadence; drill results tracked over time.
-
-### 15.7 Operational admin tooling (P2)
-
-**F29 — Staff Device/Session Management ("My Devices")**
-Priority: P2 · Source: GAP_ANALYSIS.md #16
-Definition: Screen behind the existing `GET/DELETE /staff/me/sessions` API.
-Capabilities: list of active sessions/devices; self-service or manager-assisted revocation (e.g. lost phone).
-
-**F30 — QR Sticker Generation & Printing Tool**
-Priority: P2 · Source: GAP_ANALYSIS.md #17
-Definition: A way for staff to actually produce a printable QR sticker/label for a table, beyond the `GET /tables/:id/qr` API resolving one.
-Capabilities: printable sticker/label rendering (PDF or direct print); regenerate-on-rotation flow tied to `qr_token`.
-
-**F31 — Operational Reporting Dashboard (UI)**
-Priority: P2 · Source: GAP_ANALYSIS.md #18
-Definition: A dashboard layer over the existing `GET /branches/:id/reports/*` endpoints — every report today is API-only.
-Capabilities: sales/item/staff-performance dashboard views; date-range and period-comparison controls; CSV export button.
-
-**F32 — Role/Permission Visibility Console**
-Priority: P2 · Source: GAP_ANALYSIS.md #19
-Definition: A screen for owners to see and audit what each fixed role can actually do, and rename role display labels.
-Capabilities: read-only permission matrix per role; role display-label editor (per master doc §3.13 — labels are customizable, permission sets are not).
-
-**F34 — Device Health/Heartbeat Admin View**
-Priority: P2 · Source: GAP_ANALYSIS.md #21
-Definition: Screen behind the Device Agent's heartbeat/last-seen data.
-Capabilities: per-device online/offline status; last-seen timestamp; alert configuration for prolonged offline devices.
 
 ---
 

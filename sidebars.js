@@ -21,7 +21,7 @@ module.exports = {
       label: 'Engineering Stack',
       collapsible: true,
       collapsed: false,
-      items: ['TechStackBlueprint'],
+      items: ['TechStackBlueprint', 'EndToEndDesignFlow'],
     },
   ]
 };

@@ -40,7 +40,7 @@ The dates above are illustrative sequencing beginning after this documentation b
 
 ### Required deliverables
 
-- ADR-001 backend framework
+- ADR-001 backend framework — resolved: FastAPI (Python), see `SolutionArchitecture.md` §2
 - ADR-002 real-time strategy
 - ADR-003 event/outbox strategy
 - ADR-004 device protocol direction

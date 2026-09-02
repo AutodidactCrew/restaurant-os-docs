@@ -1,13 +1,21 @@
 module.exports = {
   mainSidebar: [
-    'DocumentationHub',
-    'StrategyAndRequirements',
-    'FeatureCatalogue',
-    'UserStories',
-    'SolutionArchitecture',
-    'DomainDataApiAndEvents',
-    'SecurityReliabilityAndCompliance',
-    'DeliveryQualityAndOperations',
+    {
+      type: 'category',
+      label: 'Canonical Documentation',
+      collapsible: true,
+      collapsed: false,
+      items: [
+        'DocumentationHub',
+        'StrategyAndRequirements',
+        'FeatureCatalogue',
+        'UserStories',
+        'SolutionArchitecture',
+        'DomainDataApiAndEvents',
+        'SecurityReliabilityAndCompliance',
+        'DeliveryQualityAndOperations',
+      ],
+    },
     {
       type: 'category',
       label: 'Engineering Stack',

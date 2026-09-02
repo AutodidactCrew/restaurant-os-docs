@@ -113,6 +113,13 @@ Checked against current 2025–26 practice: modular monolith, Postgres RLS, Stri
 
 **Flagged as unverified:** a claim that Toast's shared multi-tenant infrastructure has caused "noisy neighbor" problems for smaller restaurants during large-chain traffic spikes surfaced in general SaaS-architecture commentary but could not be traced to Toast's own engineering sources. Worth designing against as a precaution, not repeating as a confirmed fact.
 
+**Decision update (28 Aug 2026):** the backend framework was subsequently decided as **FastAPI (Python)**, not Node/NestJS as recommended above — see `SolutionArchitecture.md` §2 (ADR-001, resolved). This table is left as-written since it reflects the research and reasoning at the time, not the final call; the Node-specific dependents of that original recommendation carry forward differently under Python:
+
+- **ORM:** SQLAlchemy (async), not Drizzle — same underlying reasoning (stay close to raw SQL for the `SET LOCAL app.tenant_id` RLS pattern), Python's equivalent tool.
+- **Async/job queue:** Celery (Redis-backed), not BullMQ — same Redis-backed approach, Python-native equivalent.
+- **AI tool-calling:** direct Anthropic/OpenAI Python SDK, not the Vercel AI SDK — the Vercel AI SDK's streaming-UI hooks were a Next.js/Node-specific convenience; a Python backend still pairs fine with the same Next.js frontend, it just isn't the same single-language, shared-types setup described above.
+- **Device Agent (Go)** and **Frontend (Next.js/React)** are unaffected by this change — both reasons for picking them held independent of backend language.
+
 ---
 
 ## Section D — What this means for Restaurant OS

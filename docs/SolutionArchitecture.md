@@ -24,16 +24,19 @@ The MVP architecture must:
 
 Deploy Restaurant OS initially as a **modular monolith** with:
 
-- Spring Boot (Java/Kotlin) application boundary;
+- FastAPI (Python) application boundary;
+- SQLAlchemy (async, 2.0-style) as the query/ORM layer;
 - PostgreSQL as transactional source of truth;
 - Redis for selected caches/ephemeral coordination;
-- SQS/EventBridge-style asynchronous messaging;
+- Celery (Redis-backed) for asynchronous job processing, paired with a transactional outbox so no event is lost after commit;
 - object storage for files/artifacts;
-- WebSocket/SSE transport for real-time clients;
-- local Device Agent for restaurant LAN peripherals;
+- native WebSocket transport (Starlette/FastAPI) for real-time clients, or a managed provider (e.g. Ably) where stronger delivery guarantees are required;
+- local Device Agent (Go — a standalone binary independent of the main backend's language, since it must run unattended on restaurant hardware the platform doesn't control) for restaurant LAN peripherals;
 - provider adapters for payment/SMS/POS/maps integrations.
 
 The exact cloud deployment implementation can evolve through ADRs.
+
+**Resolved (see ADR-001):** backend language/framework is FastAPI (Python), not Spring Boot — this replaces an earlier draft of this section that named Spring Boot while ADR-001 was still listed as open. SQLAlchemy's session-scoped `SET LOCAL app.tenant_id` pattern is the intended RLS integration point (ADR-006).
 
 ## 3. System context
 
@@ -196,7 +199,7 @@ Extraction requires an ADR with measured reason, data ownership plan, migration 
 
 ## 15. Architecture decision records required
 
-- ADR-001 Backend language/framework
+- ADR-001 Backend language/framework — **resolved: FastAPI (Python)**, see §2
 - ADR-002 Real-time transport strategy
 - ADR-003 Event publication/outbox strategy
 - ADR-004 Device Agent transport/protocol
@@ -204,3 +207,8 @@ Extraction requires an ADR with measured reason, data ownership plan, migration 
 - ADR-006 Tenant-context + PostgreSQL RLS implementation
 - ADR-007 Platform billing currency
 - ADR-008 AI vendor/data/cost policy before AI enablement
+- ADR-009 Frontend framework — proposed: Next.js (React)
+- ADR-010 ORM/query layer — proposed: SQLAlchemy (async)
+- ADR-011 Async job queue — proposed: Celery (Redis-backed)
+
+ADR-001 is the only one marked resolved above; ADR-009–011 are proposed defaults carried over from stack research, not yet ratified the way ADR-001 was in this pass.

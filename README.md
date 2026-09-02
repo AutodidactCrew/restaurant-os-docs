@@ -19,7 +19,7 @@ npm run serve
 
 ## GitHub Pages setup
 
-1. Replace `YOUR_GITHUB_USERNAME` in `docusaurus.config.js`.
+1. Confirm `organizationName` and `url` in `docusaurus.config.js` match your GitHub org.
 2. Create a GitHub repository named `restaurant-os-docs`.
 3. Push this project to the `main` branch.
 4. In **Settings → Pages**, select **GitHub Actions** as the source.

@@ -415,7 +415,7 @@ This blueprint resolves four of the open ADRs listed in `ROS-ARCH-001` section 1
 | ADR-001 | Backend language and framework | FastAPI + Python 3.12; Uvicorn under Gunicorn | Resolved |
 | ADR-002 | Real-time transport strategy | Server-Sent Events + REST resync + polling fallback; Valkey Pub/Sub for multi-instance fan-out | Resolved |
 | ADR-003 | Event publication and outbox strategy | Transactional outbox in Postgres; Dramatiq + RabbitMQ workers (or procrastinate for a broker-free pilot) | Resolved |
-| ADR-004 | Device Agent transport and protocol | HTTP long-poll or SSE pull from cloud; local SQLite (WAL) durable queue; ack and heartbeat over HTTPS | Proposed |
+| ADR-004 | Device Agent transport and protocol | HTTP long-poll from cloud; local SQLite (WAL) durable queue; ack and heartbeat over HTTPS | Resolved |
 | ADR-005 | Payment provider abstraction | `PaymentProvider` protocol; Stripe as the first implementation | Proposed |
 | ADR-006 | Tenant context and PostgreSQL RLS | Request-scoped `app.current_tenant` setting applied in a FastAPI dependency; RLS policies on all tenant-scoped tables | Proposed |
 | ADR-007 | Platform billing currency | Business decision — unchanged by tooling | Open |

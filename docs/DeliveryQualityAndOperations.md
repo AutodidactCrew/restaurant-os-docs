@@ -43,7 +43,7 @@ The dates above are illustrative sequencing beginning after this documentation b
 - ADR-001 backend framework — resolved: FastAPI (Python), see `SolutionArchitecture.md` §2
 - ADR-002 real-time strategy — resolved: Server-Sent Events, see `SolutionArchitecture.md` §15
 - ADR-003 event/outbox strategy — resolved: PostgreSQL outbox + Dramatiq/RabbitMQ, see `SolutionArchitecture.md` §15
-- ADR-004 device protocol direction
+- ADR-004 device protocol direction — resolved: HTTP long-poll + local SQLite (WAL) queue, see `SolutionArchitecture.md` §10
 - repository structure
 - local dev environment
 - CI pipeline

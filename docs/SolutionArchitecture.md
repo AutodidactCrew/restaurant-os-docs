@@ -127,6 +127,8 @@ Restaurant printers and peripherals may be reachable only on the LAN, may use ve
 - expose operational status;
 - never treat transport retry as permission to duplicate a physical side effect.
 
+**Resolved (see ADR-004; `EndToEndDesignFlow.md` §12, §14):** transport is **HTTP long-poll** from the Device Agent to the cloud (agent-initiated pull over HTTPS), with a local SQLite (WAL) durable queue, token-based dedup, and ack/heartbeat over the same HTTPS channel. This picks a single answer where `TechStackBlueprint.md` §23 had proposed "HTTP long-poll or SSE pull" as an either/or — `EndToEndDesignFlow.md`'s sequence and deployment diagrams, merged after the blueprint, already commit to long-poll specifically, so ADR-004 is ratified to match rather than left as an open choice.
+
 ## 11. Caching strategy
 
 ### Public menu
@@ -206,7 +208,7 @@ Extraction requires an ADR with measured reason, data ownership plan, migration 
 - ADR-001 Backend language/framework — **resolved: FastAPI (Python)**, see §2
 - ADR-002 Real-time transport strategy — **resolved: Server-Sent Events** + REST resync + polling fallback, see §2 and `TechStackBlueprint.md` §10
 - ADR-003 Event publication/outbox strategy — **resolved: PostgreSQL transactional outbox**, drained by Dramatiq workers, see §13 and `TechStackBlueprint.md` §9
-- ADR-004 Device Agent transport/protocol
+- ADR-004 Device Agent transport/protocol — **resolved: HTTP long-poll**, local SQLite (WAL) queue, ack/heartbeat over HTTPS, see §10
 - ADR-005 Payment provider abstraction
 - ADR-006 Tenant-context + PostgreSQL RLS implementation
 - ADR-007 Platform billing currency
@@ -215,4 +217,4 @@ Extraction requires an ADR with measured reason, data ownership plan, migration 
 - ADR-010 ORM/query layer — **resolved: SQLAlchemy (async)**, see §2
 - ADR-011 Async job queue — **resolved: Dramatiq (RabbitMQ-backed)**, see §2 and `TechStackBlueprint.md` §9
 
-ADR-001, ADR-002, ADR-003, ADR-009, ADR-010 and ADR-011 are resolved as of the `TechStackBlueprint.md` (`ROS-STACK-001`) adoption; ADR-004–008 remain open decisions.
+ADR-001, ADR-002, ADR-003, ADR-004, ADR-009, ADR-010 and ADR-011 are resolved; ADR-005–008 remain open decisions.

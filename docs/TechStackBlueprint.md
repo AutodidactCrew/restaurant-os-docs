@@ -5,7 +5,7 @@ sidebar_label: "Technology Stack Blueprint"
 # Restaurant OS — Technology Stack Blueprint
 
 **Document ID:** ROS-STACK-001
-**Status:** Proposed (pending ADR-001)
+**Status:** Adopted (03 Sep 2026) — resolves ADR-001, ADR-002, ADR-003, ADR-010, ADR-011; see `SolutionArchitecture.md` §2, §15
 **Owners:** Technical Lead, Platform Lead
 **Constraint:** React + Python, open-source or free-tier only
 
@@ -24,11 +24,11 @@ Ground rules taken from the canonical documents:
 - **Stripe** is the reference payment provider behind an adapter boundary (Documentation Hub ND-03).
 - Correctness beats feature breadth: no lost orders, no duplicate charges, no cross-tenant leakage (`ROS-PRD-001` section 1).
 
-### 1.1 Decision to record first
+### 1.1 Decisions this blueprint resolves
 
-`ROS-ARCH-001` section 2 currently names **Spring Boot (Java/Kotlin)** as the application boundary. Choosing Python replaces that decision, and **ADR-001 — Backend language/framework** is already on the required-ADR list (`ROS-ARCH-001` section 15, `ROS-DEL-001` section 3).
+ADR-001 (backend language/framework) was already resolved as FastAPI + Python 3.12 in `ROS-ARCH-001` §2 before this blueprint was written — the reasons: one language across API, async workers and the Device Agent; OpenAPI generated natively; async I/O suited to payment, SMS and real-time fan-out; trade-off accepted: no JVM throughput headroom, mitigated by the extraction points in `ROS-ARCH-001` §14.
 
-Write ADR-001 before Sprint 0 exits. Record: FastAPI + Python 3.12 as the backend; the reasons (one language across API, async workers and the Device Agent; OpenAPI generated natively; async I/O suited to payment, SMS and real-time fan-out); and the trade-off accepted (no JVM throughput headroom — mitigated by the extraction points in `ROS-ARCH-001` section 14). Update `ROS-ARCH-001` sections 2 and 15 and the `ROS-DEL-001` section 21 ownership table in the same change so the canonical set stays consistent (Documentation Hub section 4).
+This blueprint additionally resolves three more of the ADRs `ROS-ARCH-001` §15 lists as required: **ADR-002** (real-time transport — Server-Sent Events, §10), **ADR-003** (event/outbox strategy — PostgreSQL outbox + Dramatiq/RabbitMQ, §9) and **ADR-011** (async job queue — Dramatiq, RabbitMQ-backed, §9), superseding an earlier draft of `ROS-ARCH-001` §2 that assumed Celery and WebSocket/Ably. `ROS-ARCH-001` §2 and §15 and the `ROS-DEL-001` §21 ownership table have been updated in the same change so the canonical set stays consistent (Documentation Hub section 4).
 
 ---
 
@@ -408,15 +408,17 @@ Every framework, library and tool above is open-source or has a free tier that c
 
 ## 23. ADR crosswalk
 
-This blueprint resolves the open ADRs listed in `ROS-ARCH-001` section 15:
+This blueprint resolves four of the open ADRs listed in `ROS-ARCH-001` section 15 outright (ADR-001, ADR-002, ADR-003, ADR-011 — cross-referenced from `ROS-ARCH-001` §15 itself) and proposes a concrete direction for the remainder, which stay open decisions pending their own sign-off:
 
-| ADR | Subject | Proposed resolution |
-|---|---|---|
-| ADR-001 | Backend language and framework | FastAPI + Python 3.12; Uvicorn under Gunicorn |
-| ADR-002 | Real-time transport strategy | Server-Sent Events + REST resync + polling fallback; Valkey Pub/Sub for multi-instance fan-out |
-| ADR-003 | Event publication and outbox strategy | Transactional outbox in Postgres; Dramatiq + RabbitMQ workers (or procrastinate for a broker-free pilot) |
-| ADR-004 | Device Agent transport and protocol | HTTP long-poll or SSE pull from cloud; local SQLite (WAL) durable queue; ack and heartbeat over HTTPS |
-| ADR-005 | Payment provider abstraction | `PaymentProvider` protocol; Stripe as the first implementation |
-| ADR-006 | Tenant context and PostgreSQL RLS | Request-scoped `app.current_tenant` setting applied in a FastAPI dependency; RLS policies on all tenant-scoped tables |
-| ADR-007 | Platform billing currency | Business decision — unchanged by tooling |
-| ADR-008 | AI vendor, data and cost policy | Business and governance decision — unchanged by tooling |
+| ADR | Subject | Resolution | Status |
+|---|---|---|---|
+| ADR-001 | Backend language and framework | FastAPI + Python 3.12; Uvicorn under Gunicorn | Resolved |
+| ADR-002 | Real-time transport strategy | Server-Sent Events + REST resync + polling fallback; Valkey Pub/Sub for multi-instance fan-out | Resolved |
+| ADR-003 | Event publication and outbox strategy | Transactional outbox in Postgres; Dramatiq + RabbitMQ workers (or procrastinate for a broker-free pilot) | Resolved |
+| ADR-004 | Device Agent transport and protocol | HTTP long-poll or SSE pull from cloud; local SQLite (WAL) durable queue; ack and heartbeat over HTTPS | Proposed |
+| ADR-005 | Payment provider abstraction | `PaymentProvider` protocol; Stripe as the first implementation | Proposed |
+| ADR-006 | Tenant context and PostgreSQL RLS | Request-scoped `app.current_tenant` setting applied in a FastAPI dependency; RLS policies on all tenant-scoped tables | Proposed |
+| ADR-007 | Platform billing currency | Business decision — unchanged by tooling | Open |
+| ADR-008 | AI vendor, data and cost policy | Business and governance decision — unchanged by tooling | Open |
+| ADR-010 | ORM/query layer | SQLAlchemy 2.0 async + asyncpg | Resolved |
+| ADR-011 | Async job queue | Dramatiq, RabbitMQ-backed | Resolved |

@@ -27,16 +27,18 @@ Deploy Restaurant OS initially as a **modular monolith** with:
 - FastAPI (Python) application boundary;
 - SQLAlchemy (async, 2.0-style) as the query/ORM layer;
 - PostgreSQL as transactional source of truth;
-- Redis for selected caches/ephemeral coordination;
-- Celery (Redis-backed) for asynchronous job processing, paired with a transactional outbox so no event is lost after commit;
+- Valkey (open-source Redis fork) for selected caches/ephemeral coordination, locks and Pub/Sub fan-out;
+- a transactional outbox in PostgreSQL, drained by Dramatiq workers backed by RabbitMQ, so no event is lost after commit;
 - object storage for files/artifacts;
-- native WebSocket transport (Starlette/FastAPI) for real-time clients, or a managed provider (e.g. Ably) where stronger delivery guarantees are required;
+- Server-Sent Events (FastAPI/Starlette) for real-time clients, with REST resync and polling fallback when the stream is down;
 - local Device Agent (Go — a standalone binary independent of the main backend's language, since it must run unattended on restaurant hardware the platform doesn't control) for restaurant LAN peripherals;
 - provider adapters for payment/SMS/POS/maps integrations.
 
 The exact cloud deployment implementation can evolve through ADRs.
 
 **Resolved (see ADR-001):** backend language/framework is FastAPI (Python), not Spring Boot — this replaces an earlier draft of this section that named Spring Boot while ADR-001 was still listed as open. SQLAlchemy's session-scoped `SET LOCAL app.tenant_id` pattern is the intended RLS integration point (ADR-006).
+
+**Resolved (see ADR-002, ADR-003, ADR-011; `TechStackBlueprint.md` §9-10):** real-time transport is Server-Sent Events (not WebSocket/Ably), and asynchronous job processing is Dramatiq backed by RabbitMQ (not Celery/Redis) — this supersedes an earlier draft of this section and of `ROS-STACK-001` that assumed Celery and WebSocket/Ably before those ADRs were finalized. Valkey (a Redis-compatible fork) is used for cache, locks and Pub/Sub, not Redis proper.
 
 ## 3. System context
 
@@ -130,7 +132,7 @@ Restaurant printers and peripherals may be reachable only on the LAN, may use ve
 Use layered cache:
 
 - CDN/edge cache for public effective-menu reads;
-- optional Redis cache for effective branch menu;
+- optional Valkey cache for effective branch menu;
 - client cache with short staleness rules.
 
 Menu mutations emit invalidation for affected branch(es).
@@ -200,15 +202,15 @@ Extraction requires an ADR with measured reason, data ownership plan, migration 
 ## 15. Architecture decision records required
 
 - ADR-001 Backend language/framework — **resolved: FastAPI (Python)**, see §2
-- ADR-002 Real-time transport strategy
-- ADR-003 Event publication/outbox strategy
+- ADR-002 Real-time transport strategy — **resolved: Server-Sent Events** + REST resync + polling fallback, see §2 and `TechStackBlueprint.md` §10
+- ADR-003 Event publication/outbox strategy — **resolved: PostgreSQL transactional outbox**, drained by Dramatiq workers, see §13 and `TechStackBlueprint.md` §9
 - ADR-004 Device Agent transport/protocol
 - ADR-005 Payment provider abstraction
 - ADR-006 Tenant-context + PostgreSQL RLS implementation
 - ADR-007 Platform billing currency
 - ADR-008 AI vendor/data/cost policy before AI enablement
 - ADR-009 Frontend framework — proposed: Next.js (React)
-- ADR-010 ORM/query layer — proposed: SQLAlchemy (async)
-- ADR-011 Async job queue — proposed: Celery (Redis-backed)
+- ADR-010 ORM/query layer — **resolved: SQLAlchemy (async)**, see §2
+- ADR-011 Async job queue — **resolved: Dramatiq (RabbitMQ-backed)**, see §2 and `TechStackBlueprint.md` §9
 
-ADR-001 is the only one marked resolved above; ADR-009–011 are proposed defaults carried over from stack research, not yet ratified the way ADR-001 was in this pass.
+ADR-001, ADR-002, ADR-003, ADR-010 and ADR-011 are resolved as of the `TechStackBlueprint.md` (`ROS-STACK-001`) adoption; ADR-004–009 remain open decisions.

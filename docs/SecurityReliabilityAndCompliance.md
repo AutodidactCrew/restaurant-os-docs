@@ -304,7 +304,7 @@ Pilot alerts should cover:
 - Device Agent offline
 - Printer command stuck/DLQ
 - Database failover/recovery
-- Redis degradation
+- Valkey degradation
 - Queue backlog
 - Tenant-isolation/security incident
 - Rollback after bad deployment

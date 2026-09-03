@@ -36,7 +36,7 @@ Deploy Restaurant OS initially as a **modular monolith** with:
 
 The exact cloud deployment implementation can evolve through ADRs.
 
-**Resolved (see ADR-001):** backend language/framework is FastAPI (Python), not Spring Boot — this replaces an earlier draft of this section that named Spring Boot while ADR-001 was still listed as open. SQLAlchemy's session-scoped `SET LOCAL app.tenant_id` pattern is the intended RLS integration point (ADR-006).
+**Resolved (see ADR-001):** backend language/framework is FastAPI (Python), not Spring Boot — this replaces an earlier draft of this section that named Spring Boot while ADR-001 was still listed as open. SQLAlchemy's session-scoped `SET LOCAL app.current_tenant` pattern is the intended RLS integration point (ADR-006, resolved — see §12).
 
 **Resolved (see ADR-002, ADR-003, ADR-011; `TechStackBlueprint.md` §9-10):** real-time transport is Server-Sent Events (not WebSocket/Ably), and asynchronous job processing is Dramatiq backed by RabbitMQ (not Celery/Redis) — this supersedes an earlier draft of this section and of `ROS-STACK-001` that assumed Celery and WebSocket/Ably before those ADRs were finalized. Valkey (a Redis-compatible fork) is used for cache, locks and Pub/Sub, not Redis proper.
 
@@ -87,6 +87,8 @@ A module must not become coupled to another module by directly modifying its own
 The source files describe both order creation and PaymentIntent flow. The canonical implementation should keep payment state distinct from order preparation state.
 
 <!-- code block removed for build stability -->
+
+**Resolved (see ADR-005; `TechStackBlueprint.md` §12, `EndToEndDesignFlow.md` §8):** payment access goes through a `PaymentProvider` protocol/port, with Stripe as the first (and MVP-only) implementation — matching Documentation Hub decision ND-03. Business logic calls the port, never the Stripe SDK directly, so a second provider (Adyen, Checkout.com) can be added later without touching order/checkout code.
 
 ## 9. KDS real-time architecture
 
@@ -162,6 +164,8 @@ Primary MVP model:
 
 RLS is defense in depth, not a substitute for correct authorization.
 
+**Resolved (see ADR-006; `TechStackBlueprint.md` §6, §23; `EndToEndDesignFlow.md` §7):** tenant context is a request-scoped `SET LOCAL app.current_tenant` applied in a FastAPI dependency at the start of each transaction; RLS policies on every tenant-scoped table compare the row's `tenant_id` to that setting. This corrects §2's earlier `app.tenant_id` naming to `app.current_tenant`, matching the session variable name used consistently in `TechStackBlueprint.md` and `EndToEndDesignFlow.md`.
+
 ## 13. Resilience patterns
 
 ### Required
@@ -209,12 +213,12 @@ Extraction requires an ADR with measured reason, data ownership plan, migration 
 - ADR-002 Real-time transport strategy — **resolved: Server-Sent Events** + REST resync + polling fallback, see §2 and `TechStackBlueprint.md` §10
 - ADR-003 Event publication/outbox strategy — **resolved: PostgreSQL transactional outbox**, drained by Dramatiq workers, see §13 and `TechStackBlueprint.md` §9
 - ADR-004 Device Agent transport/protocol — **resolved: HTTP long-poll**, local SQLite (WAL) queue, ack/heartbeat over HTTPS, see §10
-- ADR-005 Payment provider abstraction
-- ADR-006 Tenant-context + PostgreSQL RLS implementation
+- ADR-005 Payment provider abstraction — **resolved: `PaymentProvider` protocol, Stripe as first implementation**, see §8
+- ADR-006 Tenant-context + PostgreSQL RLS implementation — **resolved: request-scoped `app.current_tenant`**, see §12
 - ADR-007 Platform billing currency
 - ADR-008 AI vendor/data/cost policy before AI enablement
 - ADR-009 Frontend framework — **resolved: React 19 + Vite (SPA)**, see §2 and `TechStackBlueprint.md` §5-6
 - ADR-010 ORM/query layer — **resolved: SQLAlchemy (async)**, see §2
 - ADR-011 Async job queue — **resolved: Dramatiq (RabbitMQ-backed)**, see §2 and `TechStackBlueprint.md` §9
 
-ADR-001, ADR-002, ADR-003, ADR-004, ADR-009, ADR-010 and ADR-011 are resolved; ADR-005–008 remain open decisions.
+ADR-001 through ADR-006 and ADR-009 through ADR-011 are resolved; ADR-007 (billing currency) and ADR-008 (AI vendor/data/cost policy) remain open — both are flagged in `TechStackBlueprint.md` §23 as business/governance decisions unaffected by tooling choices, not something this documentation pass can resolve on its own.

@@ -408,7 +408,7 @@ Every framework, library and tool above is open-source or has a free tier that c
 
 ## 23. ADR crosswalk
 
-This blueprint resolves four of the open ADRs listed in `ROS-ARCH-001` section 15 outright (ADR-001, ADR-002, ADR-003, ADR-011 — cross-referenced from `ROS-ARCH-001` §15 itself) and proposes a concrete direction for the remainder, which stay open decisions pending their own sign-off:
+This blueprint originally resolved four of the open ADRs listed in `ROS-ARCH-001` section 15 outright (ADR-001, ADR-002, ADR-003, ADR-011) and proposed a concrete direction for the remainder. ADR-004, ADR-005 and ADR-006 have since been ratified from those proposals — see `ROS-ARCH-001` §15 for the current status of all eleven. Only ADR-007 and ADR-008 remain genuinely open: both are business/governance calls (billing currency; AI vendor, data and cost policy) that no amount of stack tooling resolves.
 
 | ADR | Subject | Resolution | Status |
 |---|---|---|---|
@@ -416,8 +416,8 @@ This blueprint resolves four of the open ADRs listed in `ROS-ARCH-001` section 1
 | ADR-002 | Real-time transport strategy | Server-Sent Events + REST resync + polling fallback; Valkey Pub/Sub for multi-instance fan-out | Resolved |
 | ADR-003 | Event publication and outbox strategy | Transactional outbox in Postgres; Dramatiq + RabbitMQ workers (or procrastinate for a broker-free pilot) | Resolved |
 | ADR-004 | Device Agent transport and protocol | HTTP long-poll from cloud; local SQLite (WAL) durable queue; ack and heartbeat over HTTPS | Resolved |
-| ADR-005 | Payment provider abstraction | `PaymentProvider` protocol; Stripe as the first implementation | Proposed |
-| ADR-006 | Tenant context and PostgreSQL RLS | Request-scoped `app.current_tenant` setting applied in a FastAPI dependency; RLS policies on all tenant-scoped tables | Proposed |
+| ADR-005 | Payment provider abstraction | `PaymentProvider` protocol; Stripe as the first implementation | Resolved |
+| ADR-006 | Tenant context and PostgreSQL RLS | Request-scoped `app.current_tenant` setting applied in a FastAPI dependency; RLS policies on all tenant-scoped tables | Resolved |
 | ADR-007 | Platform billing currency | Business decision — unchanged by tooling | Open |
 | ADR-008 | AI vendor, data and cost policy | Business and governance decision — unchanged by tooling | Open |
 | ADR-010 | ORM/query layer | SQLAlchemy 2.0 async + asyncpg | Resolved |

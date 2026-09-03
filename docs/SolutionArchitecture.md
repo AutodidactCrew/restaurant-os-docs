@@ -215,10 +215,12 @@ Extraction requires an ADR with measured reason, data ownership plan, migration 
 - ADR-004 Device Agent transport/protocol — **resolved: HTTP long-poll**, local SQLite (WAL) queue, ack/heartbeat over HTTPS, see §10
 - ADR-005 Payment provider abstraction — **resolved: `PaymentProvider` protocol, Stripe as first implementation**, see §8
 - ADR-006 Tenant-context + PostgreSQL RLS implementation — **resolved: request-scoped `app.current_tenant`**, see §12
-- ADR-007 Platform billing currency
-- ADR-008 AI vendor/data/cost policy before AI enablement
+- ADR-007 Platform billing currency — **resolved: multi-currency** — tenants are billed via Stripe in their own regional currency rather than a single platform-wide currency; independent of branch operating currency (F29)
+- ADR-008 AI vendor/data/cost policy before AI enablement — **pending**, deliberately deferred: AI remains an enabling layer only after this ADR is written (Documentation Hub ND-06), and no AI feature is scoped for MVP, so there is nothing yet to write the ADR against
 - ADR-009 Frontend framework — **resolved: React 19 + Vite (SPA)**, see §2 and `TechStackBlueprint.md` §5-6
 - ADR-010 ORM/query layer — **resolved: SQLAlchemy (async)**, see §2
 - ADR-011 Async job queue — **resolved: Dramatiq (RabbitMQ-backed)**, see §2 and `TechStackBlueprint.md` §9
 
-ADR-001 through ADR-006 and ADR-009 through ADR-011 are resolved; ADR-007 (billing currency) and ADR-008 (AI vendor/data/cost policy) remain open — both are flagged in `TechStackBlueprint.md` §23 as business/governance decisions unaffected by tooling choices, not something this documentation pass can resolve on its own.
+ADR-001 through ADR-007 and ADR-009 through ADR-011 are resolved. ADR-008 (AI vendor/data/cost policy) is the only one left, and it is pending by design rather than open by neglect — see ADR-008 above.
+
+**On ADR-007 vs. F29:** these are two different currencies. ADR-007 is what Restaurant OS itself charges a tenant for its subscription (`tenants.subscription_plan`). F29 ("Multi-Currency Per Branch", `docs/FeatureCatalogue.md` §F29) is what a branch charges its own customers for food — still a **P2/deferred** feature per the feature catalogue, unchanged by this ADR resolution. Resolving ADR-007 as multi-currency does not by itself pull F29 into MVP scope; that is a separate roadmap-priority call.

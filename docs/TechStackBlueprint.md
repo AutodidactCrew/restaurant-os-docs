@@ -408,7 +408,7 @@ Every framework, library and tool above is open-source or has a free tier that c
 
 ## 23. ADR crosswalk
 
-This blueprint originally resolved four of the open ADRs listed in `ROS-ARCH-001` section 15 outright (ADR-001, ADR-002, ADR-003, ADR-011) and proposed a concrete direction for the remainder. ADR-004, ADR-005 and ADR-006 have since been ratified from those proposals — see `ROS-ARCH-001` §15 for the current status of all eleven. Only ADR-007 and ADR-008 remain genuinely open: both are business/governance calls (billing currency; AI vendor, data and cost policy) that no amount of stack tooling resolves.
+This blueprint originally resolved four of the open ADRs listed in `ROS-ARCH-001` section 15 outright (ADR-001, ADR-002, ADR-003, ADR-011) and proposed a concrete direction for the remainder. ADR-004, ADR-005, ADR-006 and ADR-007 have since been ratified — see `ROS-ARCH-001` §15 for the current status of all eleven. Only ADR-008 remains open, and deliberately so: AI is an enabling layer only after this ADR exists (Documentation Hub ND-06), and no AI feature is scoped for MVP, so it is pending rather than blocked.
 
 | ADR | Subject | Resolution | Status |
 |---|---|---|---|
@@ -418,7 +418,7 @@ This blueprint originally resolved four of the open ADRs listed in `ROS-ARCH-001
 | ADR-004 | Device Agent transport and protocol | HTTP long-poll from cloud; local SQLite (WAL) durable queue; ack and heartbeat over HTTPS | Resolved |
 | ADR-005 | Payment provider abstraction | `PaymentProvider` protocol; Stripe as the first implementation | Resolved |
 | ADR-006 | Tenant context and PostgreSQL RLS | Request-scoped `app.current_tenant` setting applied in a FastAPI dependency; RLS policies on all tenant-scoped tables | Resolved |
-| ADR-007 | Platform billing currency | Business decision — unchanged by tooling | Open |
-| ADR-008 | AI vendor, data and cost policy | Business and governance decision — unchanged by tooling | Open |
+| ADR-007 | Platform billing currency | Multi-currency — Stripe bills each tenant in its own regional currency; independent of branch operating currency (F29) | Resolved |
+| ADR-008 | AI vendor, data and cost policy | Deferred until an AI feature is actually scoped (ND-06) — no proposal to evaluate yet | Pending |
 | ADR-010 | ORM/query layer | SQLAlchemy 2.0 async + asyncpg | Resolved |
 | ADR-011 | Async job queue | Dramatiq, RabbitMQ-backed | Resolved |

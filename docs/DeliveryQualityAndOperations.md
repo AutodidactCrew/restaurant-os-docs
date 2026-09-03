@@ -41,8 +41,8 @@ The dates above are illustrative sequencing beginning after this documentation b
 ### Required deliverables
 
 - ADR-001 backend framework — resolved: FastAPI (Python), see `SolutionArchitecture.md` §2
-- ADR-002 real-time strategy
-- ADR-003 event/outbox strategy
+- ADR-002 real-time strategy — resolved: Server-Sent Events, see `SolutionArchitecture.md` §15
+- ADR-003 event/outbox strategy — resolved: PostgreSQL outbox + Dramatiq/RabbitMQ, see `SolutionArchitecture.md` §15
 - ADR-004 device protocol direction
 - repository structure
 - local dev environment
@@ -284,7 +284,7 @@ Business rules:
 Real infrastructure-compatible test environments for:
 
 - PostgreSQL
-- Redis
+- Valkey
 - queue/event behavior
 - RLS
 - transactions/outbox
@@ -382,7 +382,7 @@ For pilot:
 - API error/latency
 - DB saturation
 - queue age/depth
-- WebSocket connections
+- SSE connections
 - webhook errors
 - Device Agent heartbeat
 - DLQ

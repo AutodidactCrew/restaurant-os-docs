@@ -120,6 +120,14 @@ Checked against current 2025–26 practice: modular monolith, Postgres RLS, Stri
 - **AI tool-calling:** direct Anthropic/OpenAI Python SDK, not the Vercel AI SDK — the Vercel AI SDK's streaming-UI hooks were a Next.js/Node-specific convenience; a Python backend still pairs fine with the same Next.js frontend, it just isn't the same single-language, shared-types setup described above.
 - **Device Agent (Go)** and **Frontend (Next.js/React)** are unaffected by this change — both reasons for picking them held independent of backend language.
 
+**Decision update (03 Sep 2026):** `TechStackBlueprint.md` (`ROS-STACK-001`) was subsequently adopted as the finalized stack, resolving ADR-002, ADR-003 and ADR-011 (see `SolutionArchitecture.md` §15) and superseding the Celery/Redis/WebSocket-Ably assumptions in the update above:
+
+- **Async/job queue:** Dramatiq (RabbitMQ-backed), not Celery (Redis-backed) — a PostgreSQL transactional outbox is drained by Dramatiq workers.
+- **Realtime (KDS):** Server-Sent Events, not managed WebSocket (Ably) — real-time transport stays an optimization over REST resync and polling fallback, so SSE's simpler delivery model was judged sufficient rather than paying for Ably's stronger guarantees.
+- **Cache/locks/pub-sub:** Valkey (open-source Redis fork), not Redis proper — avoids the Redis Source Available License under a strict free-of-cost reading.
+
+Everything else in both decision-update notes (ORM, AI tool-calling, Device Agent, frontend) is unchanged.
+
 ---
 
 ## Section D — What this means for Restaurant OS

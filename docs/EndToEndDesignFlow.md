@@ -5,7 +5,7 @@ sidebar_label: "End-to-End Design Flow"
 # Restaurant OS — End-to-End Design Flow
 
 **Document ID:** ROS-FLOW-001
-**Status:** Proposed (companion to ROS-STACK-001; pending ADR-001)
+**Status:** Adopted (03 Sep 2026) — companion to ROS-STACK-001, which resolves ADR-001, ADR-002, ADR-003, ADR-010, ADR-011
 **Owners:** Technical Lead, Backend Lead, Frontend Lead
 **Reads with:** `ROS-ARCH-001` (architecture), `ROS-DATA-001` (data and events), `ROS-STACK-001` (tech stack)
 

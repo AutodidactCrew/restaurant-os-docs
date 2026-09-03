@@ -203,7 +203,7 @@ Browser-based KDS PWA for receiving and progressing kitchen work in real time.
 ### Reliability requirements
 
 - persisted order is source of truth;
-- WebSocket event loss is recoverable through queue resync;
+- real-time (SSE) event loss is recoverable through queue resync;
 - duplicate event application is harmless;
 - branch/tenant scoping is enforced on both connection and message publication.
 
@@ -314,7 +314,7 @@ Shared technical capabilities required to make all user-facing features reliable
 - Idempotency middleware
 - Webhook-event deduplication
 - Asynchronous event publishing
-- WebSocket/SSE real-time transport
+- SSE real-time transport
 - Rate limiting
 - CDN rules for public menu
 - Audit event hooks

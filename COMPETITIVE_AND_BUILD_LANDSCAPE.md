@@ -126,7 +126,9 @@ Checked against current 2025–26 practice: modular monolith, Postgres RLS, Stri
 - **Realtime (KDS):** Server-Sent Events, not managed WebSocket (Ably) — real-time transport stays an optimization over REST resync and polling fallback, so SSE's simpler delivery model was judged sufficient rather than paying for Ably's stronger guarantees.
 - **Cache/locks/pub-sub:** Valkey (open-source Redis fork), not Redis proper — avoids the Redis Source Available License under a strict free-of-cost reading.
 
-Everything else in both decision-update notes (ORM, AI tool-calling, Device Agent, frontend) is unchanged.
+Everything else in both decision-update notes (ORM, AI tool-calling, Device Agent) is unchanged.
+
+**Decision update (03 Sep 2026):** frontend was subsequently ratified (ADR-009) as **React 19 + Vite**, three separate SPAs (`customer-web`, `admin-web`, `kds-pwa`) — not Next.js, correcting the "Frontend (Next.js/React) ... unaffected" and "frontend ... unchanged" statements in both notes above. `TechStackBlueprint.md` §5-6 argues Next.js's SSR tier buys nothing here (no crawler/link-unfurl surface, no login-wall SEO — every page is either authenticated or a CDN-cacheable JSON fetch) while costing a second runtime to deploy, monitor and secure. See `SolutionArchitecture.md` §2/§15 (ADR-009, resolved).
 
 ---
 

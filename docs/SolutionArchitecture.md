@@ -40,6 +40,8 @@ The exact cloud deployment implementation can evolve through ADRs.
 
 **Resolved (see ADR-002, ADR-003, ADR-011; `TechStackBlueprint.md` §9-10):** real-time transport is Server-Sent Events (not WebSocket/Ably), and asynchronous job processing is Dramatiq backed by RabbitMQ (not Celery/Redis) — this supersedes an earlier draft of this section and of `ROS-STACK-001` that assumed Celery and WebSocket/Ably before those ADRs were finalized. Valkey (a Redis-compatible fork) is used for cache, locks and Pub/Sub, not Redis proper.
 
+**Resolved (see ADR-009; `TechStackBlueprint.md` §5-6):** frontend is **React 19 + Vite**, three separate SPAs (`customer-web`, `admin-web`, `kds-pwa`) — not Next.js. This supersedes the "proposed: Next.js (React)" note this section previously carried over from the early competitive-landscape research; the blueprint explicitly rejects an SSR framework here since none of the three surfaces (authenticated console, kitchen display, post-QR-scan ordering flow) needs HTML-complete-before-JS delivery, and an SSR tier would mean a second runtime to deploy, monitor and secure for no benefit.
+
 ## 3. System context
 
 <!-- code block removed for build stability -->
@@ -209,8 +211,8 @@ Extraction requires an ADR with measured reason, data ownership plan, migration 
 - ADR-006 Tenant-context + PostgreSQL RLS implementation
 - ADR-007 Platform billing currency
 - ADR-008 AI vendor/data/cost policy before AI enablement
-- ADR-009 Frontend framework — proposed: Next.js (React)
+- ADR-009 Frontend framework — **resolved: React 19 + Vite (SPA)**, see §2 and `TechStackBlueprint.md` §5-6
 - ADR-010 ORM/query layer — **resolved: SQLAlchemy (async)**, see §2
 - ADR-011 Async job queue — **resolved: Dramatiq (RabbitMQ-backed)**, see §2 and `TechStackBlueprint.md` §9
 
-ADR-001, ADR-002, ADR-003, ADR-010 and ADR-011 are resolved as of the `TechStackBlueprint.md` (`ROS-STACK-001`) adoption; ADR-004–009 remain open decisions.
+ADR-001, ADR-002, ADR-003, ADR-009, ADR-010 and ADR-011 are resolved as of the `TechStackBlueprint.md` (`ROS-STACK-001`) adoption; ADR-004–008 remain open decisions.

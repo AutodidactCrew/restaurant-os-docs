@@ -53,7 +53,7 @@ Consensus is out of 5 independent review agents per pass; "confirmed pre-round" 
 | 38 | Feature | Itemized bill splitting by guest/seat | Distinct from deferred "split tender" (payment method) | NICE-TO-HAVE | 2/5 |
 | 39 | Open decision | Franchise financial independence | Separate P&L/Stripe per branch under one tenant — still unresolved | Flag, not gap | Master doc Part 10 |
 | 40 | Open decision | Backend framework contradiction | **Resolved 28 Aug 2026** — backend is FastAPI (Python); `SolutionArchitecture.md` §2/§15 (ADR-001) updated accordingly | Resolved | Doc-internal |
-| 41 | Open decision | No frontend framework chosen | Next.js (React) proposed as ADR-009 in `SolutionArchitecture.md` §15 — still not formally ratified | Needs resolving | Confirmed pre-round |
+| 41 | Open decision | No frontend framework chosen | **Resolved 03 Sep 2026** — frontend is React 19 + Vite (SPA), not Next.js; `SolutionArchitecture.md` §2/§15 (ADR-009) updated to match `TechStackBlueprint.md` §5-6 | Resolved | Confirmed pre-round |
 
 ## Single-reviewer flags (not promoted to consensus table)
 
